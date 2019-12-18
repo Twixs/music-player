@@ -1,6 +1,14 @@
+import { NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AlbumsListComponent } from './albums-list.component';
+import { NavbarComponent } from '../navbar/navbar.component';
+
+import { SpotifyApiService } from '../../services/spotify.service';
+import { HttpService } from '../../services/http.service';
+
+import { of } from 'rxjs';
 
 describe('AlbumsListComponent', () => {
   let component: AlbumsListComponent;
@@ -8,7 +16,18 @@ describe('AlbumsListComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AlbumsListComponent ]
+      imports: [        
+        HttpClientModule
+      ],
+      declarations: [
+        AlbumsListComponent,
+        NavbarComponent
+      ],
+      providers: [
+        SpotifyApiService,
+        HttpService
+      ],
+      schemas: [ CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA ]
     })
     .compileComponents();
   }));
