@@ -54,4 +54,8 @@ describe('TrackListComponent', () => {
     component.togglePlaylist();
     expect(component.isPlaylistClosed).toBeFalsy();
   });
+
+  it('should convert millisecond in readable format "MM:SS"', () => {
+    expect(component.displayMillisecInMinSec(208906)).toEqual('3:29');
+  })
 });
