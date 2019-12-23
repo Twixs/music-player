@@ -38,7 +38,8 @@ p {
 .track-list {
   position: absolute;
   right: 0;
-  height: 89vh;
+  top: 0;
+  height: 100vh;
   width: 550px;
   overflow-y: scroll;
   background: rgba($color: rgb(59, 59, 59), $alpha: 0.9);
@@ -52,7 +53,7 @@ p {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-bottom: 35px;
+    padding: 25px 0 35px 0;
     .toggle-close {
       i {
         color: #ffffff;
@@ -71,36 +72,36 @@ p {
       }
     }
   }
-  .tracks-container {
-    .track {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 13px 0;
-      h6 {
-        margin: 0 15px;
-        text-align: center;
-      }
-      .transparent_button {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background: none;
-        border: none;
-        border-radius: 50%;
-        outline: none;
-        #play {
-          color: $lightGreen;
-        }
-        #pause {
-          color: #ffffff;
-        }
-      }
-    }
-    .mat-slider {
-      width: 100%;
-    }
-  }
+  // .tracks-container {
+  //   .track {
+  //     display: flex;
+  //     justify-content: space-between;
+  //     align-items: center;
+  //     padding: 13px 0;
+  //     h6 {
+  //       margin: 0 15px;
+  //       text-align: center;
+  //     }
+  //     .transparent_button {
+  //       display: flex;
+  //       justify-content: center;
+  //       align-items: center;
+  //       background: none;
+  //       border: none;
+  //       border-radius: 50%;
+  //       outline: none;
+  //       #play {
+  //         color: $lightGreen;
+  //       }
+  //       #pause {
+  //         color: #ffffff;
+  //       }
+  //     }
+  //   }
+  //   .mat-slider {
+  //     width: 100%;
+  //   }
+  // }
 }
 .track-list::-webkit-scrollbar-track {
   border-radius: 2px;

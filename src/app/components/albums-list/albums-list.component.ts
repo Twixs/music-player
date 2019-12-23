@@ -10,6 +10,7 @@ import { SpotifyApiService } from '../../services/spotify.service';
 export class AlbumsListComponent implements OnInit, OnDestroy {
   albums: any[] = [];
   subscription$: Subscription;
+  noResultsMessage: string = '';
 
   constructor(private spotifyService: SpotifyApiService) {
   }
@@ -22,7 +23,7 @@ export class AlbumsListComponent implements OnInit, OnDestroy {
   getAlbums() {
     this.spotifyService.getAlbums()
       .subscribe(
-        ({albums}: any) => {
+        ({ albums }: any) => {
           const { items } = albums;
           this.albums = items;
         },
@@ -31,7 +32,10 @@ export class AlbumsListComponent implements OnInit, OnDestroy {
 
   updateList() {
     this.subscription$ = this.spotifyService.dataList$
-      .subscribe(({items}: any) => {
+      .subscribe(({ items }: any) => {
+        if (!items.length) {
+          this.noResultsMessage = 'No results found';
+        }
         this.albums = items;
       });
   }
