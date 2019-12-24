@@ -11,9 +11,10 @@ export class AlbumsListComponent implements OnInit, OnDestroy {
   albums: any[] = [];
   subscription$: Subscription;
   noResultsMessage: string = '';
+  albumsTotal: number;
+  pageInfo: any;
 
-  constructor(private spotifyService: SpotifyApiService) {
-  }
+  constructor(private spotifyService: SpotifyApiService) { }
 
   ngOnInit() {
     this.getAlbums();
@@ -32,12 +33,17 @@ export class AlbumsListComponent implements OnInit, OnDestroy {
 
   updateList() {
     this.subscription$ = this.spotifyService.dataList$
-      .subscribe(({ items }: any) => {
-        if (!items.length) {
-          this.noResultsMessage = 'No results found';
-        }
+      .subscribe((data: any) => {
+        const { items, total, limit } = data;
+        if (!items.length) this.noResultsMessage = 'No results found';
         this.albums = items;
+        this.pageInfo = data;
+        this.albumsTotal = Math.ceil(total / limit);
       });
+  }
+
+  goToAlbums(nextPage: string) {
+    this.spotifyService.getNextAlbums(nextPage);
   }
 
   ngOnDestroy() {

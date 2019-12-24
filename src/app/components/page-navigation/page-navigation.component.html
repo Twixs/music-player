@@ -1,0 +1,9 @@
+<div class="albums-navigation">
+    <button class="mat-button" (click)="loadPreviousAlbums()" [disabled]="!prevPage">
+        <i class="material-icons">keyboard_arrow_left</i>
+    </button>
+    <p>{{pageCount}}</p>
+    <button class="mat-button" (click)="loadNextAlbums()" [disabled]="!nextPage">
+        <i class="material-icons">keyboard_arrow_right</i>
+    </button>
+</div>
