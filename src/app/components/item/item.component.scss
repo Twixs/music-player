@@ -1,4 +1,4 @@
-$lightGreen: #00d949;
+@import "../../../assets/styles/variables.scss";
 
 .track {
   display: flex;
@@ -18,10 +18,10 @@ $lightGreen: #00d949;
     border-radius: 50%;
     outline: none;
     #play {
-      color: $lightGreen;
+      color: $greenThemeColor;
     }
     #pause {
-      color: #ffffff;
+      color: $lightFontColor;
     }
   }
 }

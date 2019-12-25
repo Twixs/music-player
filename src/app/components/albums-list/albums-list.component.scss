@@ -1,10 +1,9 @@
-$darkBackgroundColor: rgb(56, 56, 56);
-$lightFontColor: whitesmoke;
+@import "../../../assets/styles/variables.scss";
 
 h1,
 h4 {
   padding: 20px;
-  color: #ffffff;
+  color: $lightFontColor;
   @media screen and (max-width: 415px) {
     font-size: 24px;
   }
@@ -37,7 +36,7 @@ h4 {
           position: relative;
           text-align: center;
           h3 {
-            color: rgb(56, 56, 56);
+            color: $darkBackgroundColor;
             position: absolute;
             top: 50%;
             left: 50%;

@@ -1,9 +1,9 @@
-$lightFontColor: whitesmoke;
+@import "../../../assets/styles/variables.scss";
 
 p {
   margin: 0;
   padding: 20px 0;
-  color: #ffffff;
+  color: $lightFontColor;
   @media screen and (max-width: 415px) {
     font-size: 18px;
   }

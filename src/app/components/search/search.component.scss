@@ -1,18 +1,20 @@
+@import "../../../assets/styles/variables.scss";
+
 .search-container {
   display: flex;
   flex-direction: row;
   i {
     font-size: 32px;
-    color: #ffffff;
+    color: $lightFontColor;
   }
   input {
     border: 0;
     border-radius: 0;
-    border-bottom: 1px solid #ffffff;
+    border-bottom: 1px solid $lightFontColor;
     background: transparent;
-    color: #ffffff;
+    color: $lightFontColor;
   }
   .form-control::placeholder {
-    color: #ffffff;
+    color: $lightFontColor;
   }
 }
