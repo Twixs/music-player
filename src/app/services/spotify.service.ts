@@ -60,4 +60,37 @@ export class SpotifyApiService {
       this.dataList$.next(albums);
     });
   }
+
+  getCategories() {
+    const params = {
+      endpoint: 'browse/categories',
+      queryParams: {
+        limit: 25,
+        country: 'US'
+      }
+    };
+    return this.$http.request(params);
+  }
+
+  getCategoryPlaylist(category_id: string) {
+    const params = {
+      endpoint: `browse/categories/${category_id}/playlists`,
+      queryParams: {
+        limit: 25,
+        country: 'US'
+      }
+    };
+    return this.$http.request(params);
+  }
+
+  getCategoryTracks(playlist_id: string) {
+    const params = {
+      endpoint: `browse/playlists/${playlist_id}/tracks`,
+      queryParams: {
+        limit: 25,
+        country: 'US'
+      }
+    };
+    return this.$http.request(params);
+  }
 }

@@ -27,6 +27,10 @@ import { AlbumsListComponent } from './components/albums-list/albums-list.compon
 import { TrackListComponent } from './components/track-list/track-list.component';
 import { ItemComponent } from './components/item/item.component';
 import { PageNavigationComponent } from './components/page-navigation/page-navigation.component';
+import { CategoriesComponent } from './components/categories/categories.component';
+import { HomeComponent } from './components/home/home.component';
+import { CategoryComponent } from './components/category/category.component';
+import { GridListComponent } from './components/grid-list/grid-list.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +41,10 @@ import { PageNavigationComponent } from './components/page-navigation/page-navig
     TrackListComponent,
     ItemComponent,
     PageNavigationComponent,
+    CategoriesComponent,
+    HomeComponent,
+    CategoryComponent,
+    GridListComponent,
   ],
   imports: [
     FormsModule,

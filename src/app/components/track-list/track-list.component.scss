@@ -13,15 +13,73 @@ p {
   background-size: cover;
   background-position: 70% 30%;
   background-repeat: no-repeat;
+  &::before {
+    content: "";
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(10px);
+  }
   .content {
     width: 90%;
     margin: 0 auto;
-  }
-}
-.toggle-menu_button {
-  i {
-    color: $lightFontColor;
-    font-size: 38px;
+    position: sticky;
+    .toggle-menu_button {
+      i {
+        color: $lightFontColor;
+        font-size: 38px;
+      }
+    }
+    .track-list {
+      position: fixed;
+      right: 0;
+      top: 0;
+      height: 100vh;
+      width: 550px;
+      overflow-y: scroll;
+      background: rgba($color: $darkBackgroundColor, $alpha: 0.9);
+      padding: 25px;
+      @media screen and (max-width: 415px) {
+        width: 100%;
+      }
+      .title {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 25px 0 35px 0;
+        .toggle-close {
+          i {
+            color: $lightFontColor;
+          }
+        }
+        @media screen and (max-width: 415px) {
+          button:first-child {
+            margin-bottom: 15px;
+          }
+        }
+        h2 {
+          width: 100%;
+          text-align: center;
+          @media screen and (max-width: 415px) {
+            font-size: 24px;
+          }
+        }
+      }
+    }
+    .track-list::-webkit-scrollbar-track {
+      border-radius: 2px;
+      background: rgba($color: $darkBackgroundColor, $alpha: 0);
+    }
+    .track-list::-webkit-scrollbar {
+      width: 12px;
+      opacity: 0.6;
+      background: rgba($color: $darkBackgroundColor, $alpha: 0);
+    }
+    .track-list::-webkit-scrollbar-thumb {
+      border-radius: 2px;
+      box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+      background-color: $lightFontColor;
+    }
   }
 }
 .mat-button {
@@ -31,59 +89,4 @@ p {
   &:focus {
     outline: none;
   }
-}
-.mat-divider {
-  border-top-color: rgba($color: $lightFontColor, $alpha: 0.5);
-}
-.track-list {
-  position: absolute;
-  right: 0;
-  top: 0;
-  height: 100vh;
-  width: 550px;
-  overflow-y: scroll;
-  background: rgba($color: $darkBackgroundColor, $alpha: 0.9);
-  display: flex;
-  flex-direction: column;
-  padding: 25px;
-  @media screen and (max-width: 415px) {
-    width: 100%;
-  }
-  .title {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 25px 0 35px 0;
-    .toggle-close {
-      i {
-        color: $lightFontColor;
-      }
-    }
-    @media screen and (max-width: 415px) {
-      button:first-child {
-        margin-bottom: 15px;
-      }
-    }
-    h2 {
-      width: 100%;
-      text-align: center;
-      @media screen and (max-width: 415px) {
-        font-size: 24px;
-      }
-    }
-  }
-}
-.track-list::-webkit-scrollbar-track {
-  border-radius: 2px;
-  background: rgba($color: $darkBackgroundColor, $alpha: 0);
-}
-.track-list::-webkit-scrollbar {
-  width: 12px;
-  opacity: 0.6;
-  background: rgba($color: $darkBackgroundColor, $alpha: 0);
-}
-.track-list::-webkit-scrollbar-thumb {
-  border-radius: 2px;
-  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-  background-color: $lightFontColor;
 }

@@ -49,8 +49,4 @@ export class AlbumsListComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.subscription$.unsubscribe();
   }
-
-  getCoverImage(album: any) {
-    return album && album.images.length ? album.images[1].url : '../assets/no-cover.jpg';
-  }
 }
