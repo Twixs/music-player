@@ -85,7 +85,7 @@ export class SpotifyApiService {
 
   getCategoryTracks(playlist_id: string) {
     const params = {
-      endpoint: `browse/playlists/${playlist_id}/tracks`,
+      endpoint: `playlists/${playlist_id}/tracks`,
       queryParams: {
         limit: 25,
         country: 'US'

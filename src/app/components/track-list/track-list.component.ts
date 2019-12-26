@@ -65,7 +65,26 @@ export class TrackListComponent implements OnInit {
           return track;
         });
       },
-        (error: any) => console.log(error)
+        (error: any) => {
+          if (error.status === 404) {
+            this.spotifyService.getCategoryTracks(this.albumId)
+              .subscribe(({ items }: any) => {
+                const audioID = this.audioService.getAudioID();
+                this.albumName = name;
+                this.coverImage = items[0].track.album.images[0].url;
+                this.tracks = items.map(item => {
+                  const { track } = item;
+                  if (audioID === track.id) {
+                    this.currentTrack = track;
+                    track.isPlaying = true;
+                  }
+                  return track;
+                });
+              })
+          } else {
+            console.log(error)
+          }
+        }
       );
   }
 
