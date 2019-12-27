@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, NavigationExtras } from '@angular/router';
 
 @Component({
   selector: 'app-grid-list',
@@ -17,7 +17,16 @@ export class GridListComponent {
   }
 
   goTo(item: any) {
-    this.router.navigate([`/${this.route}`, `${item.id}`]);
+    let navigationExtras: NavigationExtras = {
+      queryParams: {
+        name: item.name,
+        navigatedFrom: this.route
+      }
+    };
+
+    if (this.route === 'categoryPlaylists') return this.router.navigate([`/tracks`, item.id], navigationExtras);
+
+    this.router.navigate([`/${this.route}`, item.id], navigationExtras);
   }
 
 }

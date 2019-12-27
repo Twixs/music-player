@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { state, style, transition, animate, trigger } from '@angular/animations';
 
 import { SpotifyApiService } from '../../services/spotify.service';
@@ -29,6 +29,7 @@ export class TrackListComponent implements OnInit {
   public currentTrack: ITrack;
   public albumName: string;
   public albumId: string;
+  public navigatedRoute: string;
   public coverImage: string;
   public isPlaylistClosed = true;
 
@@ -52,40 +53,48 @@ export class TrackListComponent implements OnInit {
 
   ngOnInit() {
     this.albumId = this.route.snapshot.paramMap.get('id');
-    this.spotifyService.getAlbum(this.albumId)
-      .subscribe(({ name, tracks, images }: any) => {
-        const audioID = this.audioService.getAudioID();
-        this.albumName = name;
-        this.coverImage = images[0].url;
-        this.tracks = tracks.items.map((track: ITrack) => {
-          if (audioID === track.id) {
-            this.currentTrack = track;
-            track.isPlaying = true;
-          }
-          return track;
-        });
-      },
-        (error: any) => {
-          if (error.status === 404) {
-            this.spotifyService.getCategoryTracks(this.albumId)
-              .subscribe(({ items }: any) => {
-                const audioID = this.audioService.getAudioID();
-                this.albumName = name;
-                this.coverImage = items[0].track.album.images[0].url;
-                this.tracks = items.map(item => {
-                  const { track } = item;
-                  if (audioID === track.id) {
-                    this.currentTrack = track;
-                    track.isPlaying = true;
-                  }
-                  return track;
-                });
-              })
-          } else {
+    this.route.queryParams.subscribe(params => {
+      this.albumName = params.name;
+      this.navigatedRoute = params.navigatedFrom;
+    });
+    if (this.navigatedRoute === 'tracks') {
+      this.spotifyService.getAlbum(this.albumId)
+        .subscribe(({ tracks, images }: any) => {
+          const audioID = this.audioService.getAudioID();
+          this.coverImage = images[0].url;
+          this.tracks = tracks.items.map((track: ITrack) => {
+            if (audioID === track.id) {
+              this.currentTrack = track;
+              track.isPlaying = true;
+            }
+            return track;
+          });
+        },
+          (error: any) => {
             console.log(error)
           }
-        }
-      );
+        );
+    } else {
+      this.spotifyService.getCategoryTracks(this.albumId)
+        .subscribe(({ items }: any) => {
+          const audioID = this.audioService.getAudioID();
+          this.coverImage = items[0].track.album.images[0].url;
+          this.tracks = items.map(({ track }, index: number) => {
+            // renumbering tracks for proper audio order
+            // TODO: first - filter tracks with preview_url, then do renumbering
+            track.track_number = index;
+            if (audioID === track.id) {
+              this.currentTrack = track;
+              track.isPlaying = true;
+            }
+            return track;
+          });
+        },
+          (error: any) => {
+            console.log(error)
+          }
+        );
+    }
   }
 
   togglePlaylist() {
