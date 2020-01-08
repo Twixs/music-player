@@ -1,0 +1,9 @@
+<div class="cover" [ngStyle]="{'background-image': getCoverUrl()}">
+    <div class="content">
+        <app-navbar></app-navbar>
+        <div class="header-wrapper">
+            <h1 class="my-4 pl-4">Playlists</h1>
+        </div>
+        <app-grid-list [items]="categoryPlaylists" route="categoryPlaylists"></app-grid-list>
+    </div>
+</div>

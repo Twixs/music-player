@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Subject } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { state, style, transition, animate, trigger } from '@angular/animations';
 
 import { SpotifyApiService } from '../../services/spotify.service';
@@ -25,13 +24,16 @@ import { ITrack, StreamState } from '../../types/interfaces';
   ]
 })
 export class TrackListComponent implements OnInit {
+  public state: StreamState;
   public tracks: ITrack[] = [];
+  public currentTrack: ITrack;
   public albumName: string;
+  public albumArtist: string;
+  public releaseDate: number;
+  public albumId: string;
+  public navigatedRoute: string;
   public coverImage: string;
   public isPlaylistClosed = true;
-  public currentTime$ = new Subject();
-  public state: StreamState;
-  public currentTrack: ITrack;
 
   constructor(
     private route: ActivatedRoute,
@@ -41,105 +43,79 @@ export class TrackListComponent implements OnInit {
     this.audioService.getState().subscribe(newState => {
       this.state = newState;
     });
+    this.audioService.getAudioIDChange().subscribe((id: string) => {
+      const serviceAlbumId = this.audioService.getAlbumID();
+      if (this.currentTrack && this.albumId === serviceAlbumId) {
+        this.currentTrack.isPlaying = false;
+        this.currentTrack = this.tracks.find(track => track.id === id);
+        if (this.currentTrack) this.currentTrack.isPlaying = true;
+      }
+    })
   }
 
   ngOnInit() {
-    const albumId = this.route.snapshot.paramMap.get('id');
-    this.spotifyService.getAlbum(albumId)
-      .subscribe(({ name, tracks, images }: any) => {
-        const audioID = this.audioService.getAudioID();
-        this.albumName = name;
-        this.coverImage = images[0].url;
-        const serviceTracks: ITrack[] = this.audioService.getTrackList();
-        if (serviceTracks.length && serviceTracks[0].name === tracks.items[0].name) {
-          return this.tracks = serviceTracks;
-        }
-        this.tracks = tracks.items.map(track => {
-          if (audioID === track.id) {
-            this.currentTrack = track;
-            track.isPlaying = true;
+    this.albumId = this.route.snapshot.paramMap.get('id');
+    this.route.queryParams.subscribe(params => {
+      this.albumName = params.name;
+      this.navigatedRoute = params.navigatedFrom;
+    });
+    if (this.navigatedRoute === 'tracks') {
+      this.spotifyService.getAlbum(this.albumId)
+        .subscribe(({ tracks, images, artists, release_date }: any) => {
+          this.coverImage = images[0].url;
+          this.albumArtist = artists[0].name;
+          this.releaseDate = new Date(release_date).getFullYear();
+          const { items } = tracks;
+          this.filterTracksWithPreviewURL(items);
+        },
+          (error: any) => {
+            console.log(error)
           }
-          return track;
-        });
-      },
-        (error: any) => console.log(error)
-      );
-  }
-
-  playStream(track: ITrack) {
-    this.currentTrack = track;
-    this.audioService.playStream(track, this.tracks).subscribe((event: Event) => {
-      if (event.type === 'ended') {
-        // setting track list when switching between albums
-        const trackId = this.audioService.getAudioID();
-        this.currentTrack = this.tracks.find(track => track.id === trackId);
-        this.tracks = this.audioService.getTrackList();
-        this.playNextTrack();
-      }
-    });
-  }
-
-  playPause(track: ITrack) {
-    if (track.isPlaying) {
-      this.pause(track);
+        );
     } else {
-      this.play(track);
+      this.spotifyService.getCategoryTracks(this.albumId)
+        .subscribe(({ items }: any) => {
+          this.coverImage = items[0].track.album.images[0].url;
+          const tracks = items.map(({ track }) => track);
+          this.filterTracksWithPreviewURL(tracks);
+        },
+          (error: any) => {
+            console.log(error)
+          }
+        );
     }
   }
 
-  pause(track: ITrack) {
-    track.isPlaying = false;
-    this.audioService.pause();
+  ngOnChanges() {
+    console.log(this.isPlaylistClosed)
   }
 
-  play(track: ITrack) {
-    const id = this.audioService.getAudioID();
-    this.stopOtherTracks();
-    track.isPlaying = true;
-    if (id === track.id) {
-      this.audioService.play();
-    } else {
-      if (this.currentTrack) {
-        this.currentTrack.isPlaying = false;
-      }
-      this.playStream(track);
-    }
-  }
-
-  stop() {
-    this.currentTrack.isPlaying = false;
-    this.audioService.stop();
-  }
-
-  stopOtherTracks() {
-    this.tracks.map(track => {
-      track.isPlaying = false;
-    });
-  }
-
-  onSliderTimeChanged(change) {
-    this.audioService.rewindTo(change.value);
+  filterTracksWithPreviewURL(items: ITrack[]) {
+    if (!items) return;
+    const audioID = this.audioService.getAudioID();
+    this.tracks = items
+      .filter((track: ITrack) => track.preview_url)
+      .map((track: ITrack, index: number) => {
+        track.track_number = index;
+        if (audioID === track.id) {
+          this.currentTrack = track;
+          track.isPlaying = true;
+        }
+        return track;
+      })
   }
 
   togglePlaylist() {
     this.isPlaylistClosed = !this.isPlaylistClosed;
   }
 
-  displayMillisecInMinSec(ms: number) {
-    const d = new Date(1000 * Math.round(ms / 1000));
-    return `${d.getUTCMinutes()}:${d.getUTCSeconds()}`;
-  }
-
-  playNextTrack() {
-    const currentTrackNumber = this.currentTrack.track_number;
-    const nextTrack = this.tracks.find(track => track.track_number - 1 === currentTrackNumber);
-    const isTrackListEnd = this.tracks.length === currentTrackNumber;
-    this.stop();
-    if (isTrackListEnd) return;
-    this.play(nextTrack);
-  }
-
   getCoverUrl() {
     if (this.coverImage) return 'url(' + this.coverImage + ')';
+  }
+
+  playStream(track: ITrack) {
+    if (this.currentTrack) this.currentTrack.isPlaying = false;
+    this.currentTrack = track;
+    this.audioService.playStream(track, this.tracks, this.albumId);
   }
 }

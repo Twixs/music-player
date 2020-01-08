@@ -25,6 +25,13 @@ import { SearchComponent } from './components/search/search.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { AlbumsListComponent } from './components/albums-list/albums-list.component';
 import { TrackListComponent } from './components/track-list/track-list.component';
+import { ItemComponent } from './components/item/item.component';
+import { PageNavigationComponent } from './components/page-navigation/page-navigation.component';
+import { CategoriesComponent } from './components/categories/categories.component';
+import { HomeComponent } from './components/home/home.component';
+import { CategoryComponent } from './components/category/category.component';
+import { GridListComponent } from './components/grid-list/grid-list.component';
+import { AlbumInfoComponent } from './components/album-info/album-info.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +40,13 @@ import { TrackListComponent } from './components/track-list/track-list.component
     NavbarComponent,
     AlbumsListComponent,
     TrackListComponent,
+    ItemComponent,
+    PageNavigationComponent,
+    CategoriesComponent,
+    HomeComponent,
+    CategoryComponent,
+    GridListComponent,
+    AlbumInfoComponent,
   ],
   imports: [
     FormsModule,

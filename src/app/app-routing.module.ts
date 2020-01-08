@@ -1,16 +1,21 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { TrackListComponent } from './components/track-list/track-list.component';
-import { AlbumsListComponent } from './components/albums-list/albums-list.component';
+import { HomeComponent } from './components/home/home.component';
+import { CategoryComponent } from './components/category/category.component';
 
 
 const routes: Routes = [
   {
     path: '',
-    component: AlbumsListComponent,
+    component: HomeComponent,
   },
   {
-    path: 'album/:id',
+    path: 'category/:id',
+    component: CategoryComponent,
+  },
+  {
+    path: 'tracks/:id',
     component: TrackListComponent
   }
 ];

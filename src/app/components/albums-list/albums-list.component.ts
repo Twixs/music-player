@@ -10,9 +10,11 @@ import { SpotifyApiService } from '../../services/spotify.service';
 export class AlbumsListComponent implements OnInit, OnDestroy {
   albums: any[] = [];
   subscription$: Subscription;
+  noResultsMessage: string = '';
+  albumsTotal: number;
+  pageInfo: any;
 
-  constructor(private spotifyService: SpotifyApiService) {
-  }
+  constructor(private spotifyService: SpotifyApiService) { }
 
   ngOnInit() {
     this.getAlbums();
@@ -22,7 +24,7 @@ export class AlbumsListComponent implements OnInit, OnDestroy {
   getAlbums() {
     this.spotifyService.getAlbums()
       .subscribe(
-        ({albums}: any) => {
+        ({ albums }: any) => {
           const { items } = albums;
           this.albums = items;
         },
@@ -31,16 +33,20 @@ export class AlbumsListComponent implements OnInit, OnDestroy {
 
   updateList() {
     this.subscription$ = this.spotifyService.dataList$
-      .subscribe(({items}: any) => {
+      .subscribe((data: any) => {
+        const { items, total, limit } = data;
+        if (!items.length) this.noResultsMessage = 'No results found';
         this.albums = items;
+        this.pageInfo = data;
+        this.albumsTotal = Math.ceil(total / limit);
       });
+  }
+
+  goToAlbums(nextPage: string) {
+    this.spotifyService.getNextAlbums(nextPage);
   }
 
   ngOnDestroy() {
     this.subscription$.unsubscribe();
-  }
-
-  getCoverImage(album: any) {
-    return album && album.images.length ? album.images[1].url : '../assets/no-cover.jpg';
   }
 }

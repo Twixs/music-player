@@ -1,0 +1,26 @@
+@import "../../../assets/styles/variables.scss";
+
+.cover {
+  background-size: cover;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  &::before {
+    content: "";
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    backdrop-filter: blur(10px) brightness(60%);
+  }
+}
+.content {
+  width: 90%;
+  margin: 0 auto;
+  position: sticky;
+  h1 {
+    padding: 20px;
+    color: $lightFontColor;
+    @media screen and (max-width: 415px) {
+      font-size: 24px;
+    }
+  }
+}

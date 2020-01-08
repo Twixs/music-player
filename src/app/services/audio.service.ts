@@ -11,6 +11,7 @@ export class AudioService {
     private stop$ = new Subject();
     private audioObj = new Audio();
     private audioID: string;
+    private albumId: string;
     private trackList: ITrack[] = [];
     audioEvents = [
         'ended',
@@ -34,6 +35,10 @@ export class AudioService {
 
     private stateChange: BehaviorSubject<StreamState> = new BehaviorSubject(
         this.state
+    );
+
+    private audioIDChange: BehaviorSubject<string> = new BehaviorSubject(
+        this.audioID
     );
 
     private updateStateEvents(event: Event): void {
@@ -100,10 +105,16 @@ export class AudioService {
         });
     }
 
-    playStream({preview_url, id}: ITrack, trackList: ITrack[]) {
+    playStream({ preview_url, id }: ITrack, trackList?: ITrack[], albumId?: string) {
         this.audioID = id;
-        this.trackList = trackList;
-        return this.streamObservable(preview_url).pipe(takeUntil(this.stop$));
+        this.audioIDChange.next(id);
+        if (albumId) this.albumId = albumId;
+        if (trackList) this.trackList = trackList;
+        this.streamObservable(preview_url).pipe(takeUntil(this.stop$)).subscribe((event: Event) => {
+            if (event.type === 'ended') {
+                this.playNextTrack();
+            }
+        });
     }
 
     private addEvents(obj, events, handler) {
@@ -134,6 +145,15 @@ export class AudioService {
         this.audioObj.currentTime = seconds;
     }
 
+    playNextTrack() {
+        const currentTrack = this.trackList.find(track => track.id === this.audioID);
+        const nextTrack = this.trackList.find(track => track.track_number - 1 === currentTrack.track_number);
+        const isTrackListEnd = this.trackList.length === currentTrack.track_number + 1;
+        this.stop();
+        if (isTrackListEnd) return this.audioIDChange.next(null);
+        this.playStream(nextTrack);
+    }
+
     formatTime(time: number, format: string = 'mm:ss') {
         const momentTime = time * 1000;
         return moment.utc(momentTime).format(format);
@@ -145,6 +165,14 @@ export class AudioService {
 
     getAudioID() {
         return this.audioID;
+    }
+
+    getAudioIDChange() {
+        return this.audioIDChange.asObservable();
+    }
+
+    getAlbumID() {
+        return this.albumId;
     }
 
     getTrackList() {

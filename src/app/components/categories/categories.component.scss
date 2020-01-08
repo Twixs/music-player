@@ -1,0 +1,9 @@
+@import "../../../assets/styles/variables.scss";
+
+h1 {
+  padding: 20px;
+  color: $lightFontColor;
+  @media screen and (max-width: 415px) {
+    font-size: 24px;
+  }
+}

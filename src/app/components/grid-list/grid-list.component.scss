@@ -1,0 +1,65 @@
+@import "../../../assets/styles/variables.scss";
+
+.list {
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: repeat(auto-fill, 275px);
+  justify-content: center;
+  align-items: center;
+  @media screen and (max-width: 978px) {
+    grid-template-columns: repeat(auto-fill, 200px);
+  }
+  @media screen and (max-width: 415px) {
+    grid-template-columns: repeat(auto-fill, 100px);
+  }
+  div {
+    .details {
+      position: relative;
+      text-align: center;
+      h3 {
+        color: $lightFontColor;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        -webkit-transition: 0.3s ease-in-out ease-in;
+        transition: 0.3s ease-in-out;
+        visibility: hidden;
+        z-index: 3;
+        @media screen and (max-width: 415px) {
+          font-size: 14px;
+        }
+      }
+      img {
+        object-fit: cover;
+        max-height: 275px;
+        max-width: 275px;
+        @media screen and (max-width: 978px) {
+          max-height: 200px;
+          max-width: 200px;
+        }
+        @media screen and (max-width: 415px) {
+          max-height: 100px;
+          max-width: 100px;
+        }
+      }
+      &:hover h3 {
+        visibility: visible;
+      }
+      &::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background: $darkBackgroundColor;
+        opacity: 0;
+        transition: 0.5s ease;
+      }
+      &:hover::before {
+        opacity: 0.8;
+      }
+    }
+  }
+}
