@@ -148,7 +148,7 @@ export class AudioService {
     playNextTrack() {
         const currentTrack = this.trackList.find(track => track.id === this.audioID);
         const nextTrack = this.trackList.find(track => track.track_number - 1 === currentTrack.track_number);
-        const isTrackListEnd = this.trackList.length === currentTrack.track_number;
+        const isTrackListEnd = this.trackList.length === currentTrack.track_number + 1;
         this.stop();
         if (isTrackListEnd) return this.audioIDChange.next(null);
         this.playStream(nextTrack);

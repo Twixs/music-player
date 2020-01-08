@@ -31,6 +31,7 @@ import { CategoriesComponent } from './components/categories/categories.componen
 import { HomeComponent } from './components/home/home.component';
 import { CategoryComponent } from './components/category/category.component';
 import { GridListComponent } from './components/grid-list/grid-list.component';
+import { AlbumInfoComponent } from './components/album-info/album-info.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { GridListComponent } from './components/grid-list/grid-list.component';
     HomeComponent,
     CategoryComponent,
     GridListComponent,
+    AlbumInfoComponent,
   ],
   imports: [
     FormsModule,

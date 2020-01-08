@@ -1,0 +1,17 @@
+<div class="info">
+    <div class="album-image">
+        <img [src]="coverImage" alt="Album Cover">
+    </div>
+    <div class="album-info">
+        <h1>{{albumName}}</h1>
+        <h5 *ngIf="albumArtist">By {{albumArtist}}</h5>
+        <button (click)="togglePlaylist()" class="tracks-open-button">
+            <h5>{{isPlaylistClosed ? 'Open' : 'Close'}}</h5>
+        </button>
+        <div class="tracks-info">
+            <h5 *ngIf="releaseDate">{{releaseDate}} year</h5>
+            <h5 *ngIf="tracks.length">{{tracks.length}} tracks</h5>
+            <h5 *ngIf="tracks.length">{{getFullListeningTime()}} mins</h5>
+        </div>
+    </div>
+</div>

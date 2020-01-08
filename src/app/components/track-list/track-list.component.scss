@@ -1,8 +1,6 @@
 @import "../../../assets/styles/variables.scss";
 
 h2,
-h5,
-h6,
 p {
   margin: 0;
   color: $lightFontColor;
@@ -18,18 +16,12 @@ p {
     position: fixed;
     width: 100%;
     height: 100%;
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px) brightness(60%);
   }
   .content {
     width: 90%;
     margin: 0 auto;
     position: sticky;
-    .toggle-menu_button {
-      i {
-        color: $lightFontColor;
-        font-size: 38px;
-      }
-    }
     .track-list {
       position: fixed;
       right: 0;

@@ -28,6 +28,8 @@ export class TrackListComponent implements OnInit {
   public tracks: ITrack[] = [];
   public currentTrack: ITrack;
   public albumName: string;
+  public albumArtist: string;
+  public releaseDate: number;
   public albumId: string;
   public navigatedRoute: string;
   public coverImage: string;
@@ -59,8 +61,10 @@ export class TrackListComponent implements OnInit {
     });
     if (this.navigatedRoute === 'tracks') {
       this.spotifyService.getAlbum(this.albumId)
-        .subscribe(({ tracks, images }: any) => {
+        .subscribe(({ tracks, images, artists, release_date }: any) => {
           this.coverImage = images[0].url;
+          this.albumArtist = artists[0].name;
+          this.releaseDate = new Date(release_date).getFullYear();
           const { items } = tracks;
           this.filterTracksWithPreviewURL(items);
         },
@@ -80,6 +84,10 @@ export class TrackListComponent implements OnInit {
           }
         );
     }
+  }
+
+  ngOnChanges() {
+    console.log(this.isPlaylistClosed)
   }
 
   filterTracksWithPreviewURL(items: ITrack[]) {

@@ -17,7 +17,7 @@
       position: relative;
       text-align: center;
       h3 {
-        color: $darkBackgroundColor;
+        color: $lightFontColor;
         position: absolute;
         top: 50%;
         left: 50%;
@@ -53,12 +53,12 @@
         top: 0;
         width: 100%;
         height: 100%;
-        background: $lightFontColor;
+        background: $darkBackgroundColor;
         opacity: 0;
         transition: 0.5s ease;
       }
       &:hover::before {
-        opacity: 0.4;
+        opacity: 0.8;
       }
     }
   }

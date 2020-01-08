@@ -1,0 +1,73 @@
+@import "../../../assets/styles/variables.scss";
+
+h1,
+h5 {
+  margin: 0;
+  color: $lightFontColor;
+  @media screen and (max-width: 978px) {
+    font-size: 20px;
+  }
+  @media screen and (max-width: 415px) {
+    font-size: 16px;
+  }
+}
+.info {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 70vh;
+  @media screen and (max-width: 580px) {
+    flex-direction: column;
+    justify-content: center;
+  }
+  .album-image {
+    margin-left: 35px;
+    @media screen and (max-width: 580px) {
+      margin-left: 0;
+      margin-bottom: 35px;
+    }
+    img {
+      max-width: 350px;
+      @media screen and (max-width: 978px) {
+        max-width: 250px;
+      }
+      @media screen and (max-width: 415px) {
+        max-width: 200px;
+      }
+    }
+  }
+  .album-info {
+    margin-left: 35px;
+    @media screen and (max-width: 580px) {
+      margin-left: 0;
+      justify-content: center;
+      align-items: center;
+      display: flex;
+      flex-direction: column;
+    }
+    .tracks-open-button {
+      background-color: $greenThemeColor;
+      padding: 10px 35px;
+      margin: 45px 0;
+      border-radius: 28px;
+      border: 1px solid $greenThemeColor;
+      display: inline-block;
+      text-decoration: none;
+      @media screen and (max-width: 978px) {
+        padding: 8px 30px;
+        margin: 25px 0;
+      }
+      @media screen and (max-width: 415px) {
+        padding: 8px 25px;
+        margin: 20px 0;
+      }
+    }
+    .tracks-info {
+      display: flex;
+      flex-direction: row;
+      h5 {
+        margin-right: 25px;
+      }
+    }
+  }
+}

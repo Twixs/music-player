@@ -1,11 +1,9 @@
 <div class="cover" [ngStyle]="{'background-image': getCoverUrl()}">
     <div class="content">
         <app-navbar></app-navbar>
-        <div class="toggle-icon" *ngIf="isPlaylistClosed">
-            <button mat-button (click)="togglePlaylist()" class="toggle-menu_button">
-                <i class="material-icons">menu_open</i>
-            </button>
-        </div>
+        <app-album-info [coverImage]="coverImage" [albumName]="albumName" [albumArtist]="albumArtist"
+            [releaseDate]="releaseDate" [isPlaylistClosed]="isPlaylistClosed" [tracks]="tracks"
+            (isPlaylistClosedOut)="togglePlaylist()"></app-album-info>
         <div class="track-list" [@slideInOut]="isPlaylistClosed ? 'out' : 'in'">
             <div class="title">
                 <button mat-button (click)="togglePlaylist()" class="toggle-close">
