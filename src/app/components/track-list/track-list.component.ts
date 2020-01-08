@@ -60,15 +60,9 @@ export class TrackListComponent implements OnInit {
     if (this.navigatedRoute === 'tracks') {
       this.spotifyService.getAlbum(this.albumId)
         .subscribe(({ tracks, images }: any) => {
-          const audioID = this.audioService.getAudioID();
           this.coverImage = images[0].url;
-          this.tracks = tracks.items.map((track: ITrack) => {
-            if (audioID === track.id) {
-              this.currentTrack = track;
-              track.isPlaying = true;
-            }
-            return track;
-          });
+          const { items } = tracks;
+          this.filterTracksWithPreviewURL(items);
         },
           (error: any) => {
             console.log(error)
@@ -77,24 +71,30 @@ export class TrackListComponent implements OnInit {
     } else {
       this.spotifyService.getCategoryTracks(this.albumId)
         .subscribe(({ items }: any) => {
-          const audioID = this.audioService.getAudioID();
           this.coverImage = items[0].track.album.images[0].url;
-          this.tracks = items.map(({ track }, index: number) => {
-            // renumbering tracks for proper audio order
-            // TODO: first - filter tracks with preview_url, then do renumbering
-            track.track_number = index;
-            if (audioID === track.id) {
-              this.currentTrack = track;
-              track.isPlaying = true;
-            }
-            return track;
-          });
+          const tracks = items.map(({ track }) => track);
+          this.filterTracksWithPreviewURL(tracks);
         },
           (error: any) => {
             console.log(error)
           }
         );
     }
+  }
+
+  filterTracksWithPreviewURL(items: ITrack[]) {
+    if (!items) return;
+    const audioID = this.audioService.getAudioID();
+    this.tracks = items
+      .filter((track: ITrack) => track.preview_url)
+      .map((track: ITrack, index: number) => {
+        track.track_number = index;
+        if (audioID === track.id) {
+          this.currentTrack = track;
+          track.isPlaying = true;
+        }
+        return track;
+      })
   }
 
   togglePlaylist() {

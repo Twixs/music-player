@@ -1,4 +1,4 @@
-<div *ngIf="track.preview_url" class="track">
+<div class="track">
     <button class="transparent_button" (click)="playPause(track)">
         <i class="material-icons" id="play" *ngIf="track.isPlaying">pause_circle_outline</i>
         <i class="material-icons" id="pause" *ngIf="!track.isPlaying">play_circle_outline</i>
@@ -11,4 +11,4 @@
 <mat-slider *ngIf="track.isPlaying" class="time-slider" min="0" [max]="state?.duration" step="1"
     [value]="state?.currentTime" (input)="onSliderTimeChanged($event)">
 </mat-slider>
-<mat-divider *ngIf="track.preview_url"></mat-divider>
+<mat-divider></mat-divider>

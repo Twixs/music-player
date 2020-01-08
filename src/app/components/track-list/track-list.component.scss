@@ -65,6 +65,12 @@ p {
           }
         }
       }
+      .no-tracks {
+        display: flex;
+        justify-content: center;
+        color: $lightFontColor;
+        opacity: 0.7;
+      }
     }
     .track-list::-webkit-scrollbar-track {
       border-radius: 2px;

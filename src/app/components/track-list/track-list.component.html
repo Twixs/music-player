@@ -13,6 +13,9 @@
                 </button>
                 <h2>{{albumName}}</h2>
             </div>
+            <div *ngIf="!tracks.length" class="no-tracks">
+                <p>No tracks available</p>
+            </div>
             <div *ngFor="let track of tracks">
                 <app-item [track]="track" (newCurrentTrack)="playStream($event)"></app-item>
             </div>
