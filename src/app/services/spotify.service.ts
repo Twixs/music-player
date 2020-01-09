@@ -93,4 +93,12 @@ export class SpotifyApiService {
     };
     return this.$http.request(params);
   }
+
+  getUser() {
+    const params = {
+      endpoint: 'me',
+      queryParams: {}
+    };
+    return this.$http.request(params);
+  }
 }

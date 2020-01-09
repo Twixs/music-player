@@ -1,0 +1,15 @@
+@import "../../../assets/styles/variables.scss";
+
+.loader {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba($color: $darkBackgroundColor, $alpha: 0.3);
+  svg {
+    vertical-align: middle;
+    height: 230px;
+  }
+}

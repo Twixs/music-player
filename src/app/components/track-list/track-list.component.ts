@@ -34,6 +34,7 @@ export class TrackListComponent implements OnInit {
   public navigatedRoute: string;
   public coverImage: string;
   public isPlaylistClosed = true;
+  public isLoading: boolean = true;
 
   constructor(
     private route: ActivatedRoute,
@@ -86,10 +87,6 @@ export class TrackListComponent implements OnInit {
     }
   }
 
-  ngOnChanges() {
-    console.log(this.isPlaylistClosed)
-  }
-
   filterTracksWithPreviewURL(items: ITrack[]) {
     if (!items) return;
     const audioID = this.audioService.getAudioID();
@@ -103,6 +100,8 @@ export class TrackListComponent implements OnInit {
         }
         return track;
       })
+
+      this.isLoading = false;
   }
 
   togglePlaylist() {
