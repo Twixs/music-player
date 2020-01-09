@@ -8,11 +8,11 @@ import { SpotifyApiService } from '../../services/spotify.service';
   styleUrls: ['./albums-list.component.scss']
 })
 export class AlbumsListComponent implements OnInit, OnDestroy {
-  albums: any[] = [];
-  subscription$: Subscription;
-  noResultsMessage: string = '';
-  albumsTotal: number;
-  pageInfo: any;
+  public albums: any[] = [];
+  public subscription$: Subscription;
+  public noResultsMessage: string = '';
+  public albumsTotal: number;
+  public pageInfo: any;
 
   constructor(private spotifyService: SpotifyApiService) { }
 
@@ -32,6 +32,7 @@ export class AlbumsListComponent implements OnInit, OnDestroy {
   }
 
   updateList() {
+    this.noResultsMessage = '';
     this.subscription$ = this.spotifyService.dataList$
       .subscribe((data: any) => {
         const { items, total, limit } = data;

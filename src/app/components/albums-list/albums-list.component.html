@@ -7,6 +7,7 @@
     <h4 *ngIf="!albums.length">
         {{noResultsMessage}}
     </h4>
+    <app-loader *ngIf="!albums.length && !noResultsMessage"></app-loader>
     <app-grid-list [items]="albums" route="tracks"></app-grid-list>
     <app-page-navigation *ngIf="!!albumsTotal" [pageInfo]="pageInfo" (goToPage)="goToAlbums($event)">
     </app-page-navigation>
