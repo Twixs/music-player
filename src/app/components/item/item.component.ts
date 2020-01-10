@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { ITrack } from '../../types/interfaces';
 import { AudioService } from 'src/app/services/audio.service';
+import { displayMillisecInMinSec } from '../../utils/utils';
 
 @Component({
   selector: 'app-item',
@@ -49,11 +50,8 @@ export class ItemComponent {
     this.audioService.rewindTo(change.value);
   }
 
-  displayMillisecInMinSec(ms: number) {
-    const d = new Date(1000 * Math.round(ms / 1000));
-    let seconds = d.getUTCSeconds().toString();
-    seconds.length < 2 ? seconds = `0${seconds}` : seconds;
-    return `${d.getUTCMinutes()}:${seconds}`;
+  convertMilliseconds(ms: number) {
+    return displayMillisecInMinSec(ms);
   }
 
 }

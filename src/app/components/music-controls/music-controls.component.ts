@@ -13,6 +13,9 @@ export class MusicControlsComponent {
   public currentAudioID: string;
   public currentTrackList: ITrack[];
   public currentTrack: ITrack;
+  public isAutorenewed: boolean = false;
+  public isShuffled: boolean = false;
+  public isTracksListEnd: boolean = false;
 
   constructor(
     private audioService: AudioService
@@ -39,9 +42,49 @@ export class MusicControlsComponent {
   getAudioDetails() {
     this.currentTrackList = this.audioService.getTrackList();
     this.currentTrack = this.currentTrackList.find(track => track.id === this.currentAudioID);
+    const isLastAudio = this.currentTrack.track_number + 1 === this.currentTrackList.length;
+    isLastAudio ? this.isTracksListEnd = true : this.isTracksListEnd = false;
   }
 
   convertTime(time: number) {
     return displayMillisecInMinSec(time);
+  }
+
+  playPause() {
+    if (this.state.playing) {
+      this.pause()
+    } else {
+      this.play()
+    }
+  }
+
+  play() {
+    this.audioService.play()
+  }
+
+  pause() {
+    this.audioService.pause()
+  }
+
+  playNextTrack() {
+    this.audioService.playNextTrack()
+  }
+
+  playPreviousTrack() {
+    this.audioService.playPreviousTrack()
+  }
+
+  rewindTo(change) {
+    this.audioService.rewindTo(change.value)
+  }
+
+  autorenew() {
+    this.isAutorenewed = !this.isAutorenewed;
+    this.audioService.setAutorenew(this.isAutorenewed);
+  }
+
+  shuffle() {
+    this.isShuffled = !this.isShuffled;
+    this.audioService.setShuffle(this.isShuffled);
   }
 }

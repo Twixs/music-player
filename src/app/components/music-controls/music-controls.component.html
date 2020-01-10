@@ -1,31 +1,32 @@
 <div class="controls-wrapper">
-    <button class="transparent_button">
-        <i class="material-icons">arrow_left</i>
+    <div class="play-controls">
+        <button class="transparent_button" (click)="playPreviousTrack()">
+            <i class="material-icons" id="arrow">arrow_left</i>
+        </button>
+        <button class="transparent_button" (click)="playNextTrack()" [disabled]="isTracksListEnd">
+            <i class="material-icons" id="arrow" [style.opacity]="isTracksListEnd ? '0.6' : '1'">arrow_right</i>
+        </button>
+    </div>
+    <button class="transparent_button" (click)="autorenew()">
+        <i class="material-icons" [style.opacity]="isAutorenewed ? '1' : '0.6'">autorenew</i>
     </button>
-    <button class="transparent_button">
-        <i class="material-icons">arrow_right</i>
-    </button>
-    <button class="transparent_button">
-        <i class="material-icons">autorenew</i>
-    </button>
-    <button class="transparent_button">
+    <button class="transparent_button" (click)="playPause()">
         <i class="material-icons" id="play" *ngIf="state?.playing">pause_circle_outline</i>
         <i class="material-icons" id="pause" *ngIf="!state?.playing">play_circle_outline</i>
     </button>
     <div class="audio-details">
         <div class="track-details">
             <div class="audio-details">
-                <h5>{{currentTrack?.name}}</h5>
-                <h6>{{currentTrack?.artists[0].name}}</h6>
+                <h5>{{currentTrack.name}}</h5>
+                <h6>{{currentTrack.artists[0].name}}</h6>
             </div>
-            <p>
-                {{currentTrack ? convertTime(currentTrack.duration_ms) : ''}}
-            </p>
+            <p> {{convertTime(currentTrack.duration_ms)}} </p>
         </div>
-        <mat-slider class="time-slider" min="0" [max]="state?.duration" step="1" [value]="state?.currentTime">
+        <mat-slider class="time-slider" min="0" [max]="state?.duration" step="1" [value]="state?.currentTime"
+            (input)="rewindTo($event)">
         </mat-slider>
     </div>
-    <button class="transparent_button">
-        <i class="material-icons">shuffle</i>
+    <button class="transparent_button" (click)="shuffle()">
+        <i class="material-icons" [style.opacity]="isShuffled ? '1' : '0.6'">shuffle</i>
     </button>
 </div>

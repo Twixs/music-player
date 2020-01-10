@@ -18,6 +18,10 @@ p {
   display: flex;
   justify-content: space-around;
   align-items: center;
+  .play-controls {
+    display: flex;
+    justify-content: space-evenly;
+  }
   .transparent_button {
     display: flex;
     justify-content: center;
@@ -31,17 +35,22 @@ p {
       margin: 0;
       font-size: 36px;
     }
+    i#arrow {
+      font-size: 60px;
+    }
   }
   .audio-details {
     display: flex;
     flex-direction: column;
-    width: 35%;
+    width: 40%;
     .track-details {
       display: flex;
       flex-direction: row;
       justify-content: space-between;
       align-items: flex-end;
       padding-top: 15px;
+      position: relative;
+      bottom: -10px;
       .audio-details {
         width: fit-content;
       }

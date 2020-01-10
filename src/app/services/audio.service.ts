@@ -13,6 +13,8 @@ export class AudioService {
     private audioID: string;
     private albumId: string;
     private trackList: ITrack[] = [];
+    private isAutorenewed: boolean = false;
+    private isShuffled: boolean = false;
     audioEvents = [
         'ended',
         'error',
@@ -51,6 +53,7 @@ export class AudioService {
                 break;
             case 'playing':
                 this.state.playing = true;
+                this.state.paused = false;
                 break;
             case 'pause':
                 this.state.playing = false;
@@ -115,6 +118,14 @@ export class AudioService {
         if (trackList) this.trackList = trackList;
         this.streamObservable(preview_url).pipe(takeUntil(this.stop$)).subscribe((event: Event) => {
             if (event.type === 'ended') {
+                if (this.isAutorenewed) {
+                    const currentTrack = this.trackList.find(track => track.id === this.audioID);
+                    return this.playStream(currentTrack);
+                }
+                if (this.isShuffled) {
+                    const nextTrack = Math.round(Math.random() * this.trackList.length - 1);
+                    return this.playStream(this.trackList[nextTrack]);
+                }
                 this.playNextTrack();
             }
         });
@@ -157,6 +168,15 @@ export class AudioService {
         this.playStream(nextTrack);
     }
 
+    playPreviousTrack() {
+        const currentTrack = this.trackList.find(track => track.id === this.audioID);
+        const isTrackListStart = currentTrack.track_number - 1 < 0;
+        if (isTrackListStart) return this.playStream(currentTrack);
+        const prevTrack = this.trackList.find(track => track.track_number === currentTrack.track_number - 1);
+        this.stop();
+        this.playStream(prevTrack);
+    }
+
     formatTime(time: number, format: string = 'mm:ss') {
         const momentTime = time * 1000;
         return moment.utc(momentTime).format(format);
@@ -180,5 +200,13 @@ export class AudioService {
 
     getTrackList() {
         return this.trackList;
+    }
+
+    setAutorenew(newValue) {
+        this.isAutorenewed = newValue;
+    }
+
+    setShuffle(newValue) {
+        this.isShuffled = newValue;
     }
 }
