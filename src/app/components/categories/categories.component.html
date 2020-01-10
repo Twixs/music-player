@@ -1,2 +1,3 @@
 <h1 class="my-4 pl-4">Categories</h1>
-<app-grid-list [items]="categories" route="category"></app-grid-list>
+<app-loader *ngIf="!isLoaded"></app-loader>
+<app-grid-list *ngIf="isLoaded" [items]="categories" route="category"></app-grid-list>
