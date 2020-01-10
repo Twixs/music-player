@@ -19,3 +19,9 @@ export const createQueryString = (params = {}) => {
   return keys.map(param => `${param}=${params[param]}`).join('&');
 };
 
+export const displayMillisecInMinSec = (ms: number) => {
+  const d = new Date(1000 * Math.round(ms / 1000));
+  let seconds = d.getUTCSeconds().toString();
+  seconds.length < 2 ? seconds = `0${seconds}` : seconds;
+  return `${d.getUTCMinutes()}:${seconds}`;
+}

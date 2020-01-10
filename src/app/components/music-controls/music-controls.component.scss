@@ -1,0 +1,53 @@
+@import "../../../assets/styles/variables.scss";
+
+h5 {
+  color: $greenThemeColor;
+  margin: 0;
+  font-size: 18px;
+}
+h6,
+p {
+  color: $lightFontColor;
+  font-size: 16px;
+}
+.controls-wrapper {
+  position: fixed;
+  bottom: 0;
+  width: 100vw;
+  background-color: $darkBackgroundColor;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  .transparent_button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: none;
+    border: none;
+    border-radius: 50%;
+    outline: none;
+    i {
+      color: $greenThemeColor;
+      margin: 0;
+      font-size: 36px;
+    }
+  }
+  .audio-details {
+    display: flex;
+    flex-direction: column;
+    width: 35%;
+    .track-details {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: flex-end;
+      padding-top: 15px;
+      .audio-details {
+        width: fit-content;
+      }
+    }
+  }
+}
+.mat-slider {
+  padding: 0;
+}

@@ -33,6 +33,7 @@ import { CategoryComponent } from './components/category/category.component';
 import { GridListComponent } from './components/grid-list/grid-list.component';
 import { AlbumInfoComponent } from './components/album-info/album-info.component';
 import { LoaderComponent } from './components/loader/loader.component';
+import { MusicControlsComponent } from './components/music-controls/music-controls.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import { LoaderComponent } from './components/loader/loader.component';
     GridListComponent,
     AlbumInfoComponent,
     LoaderComponent,
+    MusicControlsComponent,
   ],
   imports: [
     FormsModule,

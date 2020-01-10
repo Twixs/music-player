@@ -25,6 +25,7 @@ export class AudioService {
 
     private state: StreamState = {
         playing: false,
+        paused: false,
         readableCurrentTime: '',
         readableDuration: '',
         duration: undefined,
@@ -53,6 +54,7 @@ export class AudioService {
                 break;
             case 'pause':
                 this.state.playing = false;
+                this.state.paused = true;
                 break;
             case 'timeupdate':
                 this.state.currentTime = this.audioObj.currentTime;
@@ -71,6 +73,7 @@ export class AudioService {
     private resetState() {
         this.state = {
             playing: false,
+            paused: false,
             readableCurrentTime: '',
             readableDuration: '',
             duration: undefined,
