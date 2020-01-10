@@ -17,10 +17,10 @@
     <div class="audio-details">
         <div class="track-details">
             <div class="audio-details">
-                <h5>{{currentTrack.name}}</h5>
-                <h6>{{currentTrack.artists[0].name}}</h6>
+                <h5>{{currentTrack?.name}}</h5>
+                <h6>{{currentTrack?.artists[0].name}}</h6>
             </div>
-            <p> {{convertTime(currentTrack.duration_ms)}} </p>
+            <p> {{convertTime(currentTrack?.duration_ms)}} </p>
         </div>
         <mat-slider class="time-slider" min="0" [max]="state?.duration" step="1" [value]="state?.currentTime"
             (input)="rewindTo($event)">

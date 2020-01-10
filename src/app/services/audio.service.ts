@@ -44,6 +44,10 @@ export class AudioService {
         this.audioID
     );
 
+    private trackListChange: BehaviorSubject<ITrack[]> = new BehaviorSubject(
+        this.trackList
+    );
+
     private updateStateEvents(event: Event): void {
         switch (event.type) {
             case 'canplay':
@@ -115,15 +119,18 @@ export class AudioService {
         this.audioID = id;
         this.audioIDChange.next(id);
         if (albumId) this.albumId = albumId;
-        if (trackList) this.trackList = trackList;
+        if (trackList) {
+            this.trackList = trackList;
+            this.trackListChange.next(trackList);
+        }
         this.streamObservable(preview_url).pipe(takeUntil(this.stop$)).subscribe((event: Event) => {
             if (event.type === 'ended') {
                 if (this.isAutorenewed) {
-                    const currentTrack = this.trackList.find(track => track.id === this.audioID);
-                    return this.playStream(currentTrack);
+                    this.audioObj.currentTime = 0;
+                    return this.play();
                 }
                 if (this.isShuffled) {
-                    const nextTrack = Math.round(Math.random() * this.trackList.length - 1);
+                    const nextTrack = Math.round(Math.random() * (this.trackList.length - 1));
                     return this.playStream(this.trackList[nextTrack]);
                 }
                 this.playNextTrack();
@@ -164,7 +171,12 @@ export class AudioService {
         const nextTrack = this.trackList.find(track => track.track_number - 1 === currentTrack.track_number);
         const isTrackListEnd = this.trackList.length === currentTrack.track_number + 1;
         this.stop();
-        if (isTrackListEnd) return this.audioIDChange.next(null);
+        if (isTrackListEnd) {
+            this.audioIDChange.next(null);
+            this.state.playing = false;
+            this.state.paused = false;
+            return this.stateChange.next(this.state);
+        }
         this.playStream(nextTrack);
     }
 
@@ -194,6 +206,10 @@ export class AudioService {
         return this.audioIDChange.asObservable();
     }
 
+    getTrackListChange(): Observable<ITrack[]> {
+        return this.trackListChange.asObservable();
+    }
+
     getAlbumID() {
         return this.albumId;
     }
@@ -208,5 +224,13 @@ export class AudioService {
 
     setShuffle(newValue) {
         this.isShuffled = newValue;
+    }
+
+    getAutorenew() {
+        return this.isAutorenewed;
+    }
+
+    getShuffle() {
+        return this.isShuffled;
     }
 }

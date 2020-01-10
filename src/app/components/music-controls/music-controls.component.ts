@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AudioService } from 'src/app/services/audio.service';
+import { AudioService } from '../../services/audio.service';
 import { StreamState, ITrack } from '../../types/interfaces';
 import { displayMillisecInMinSec } from '../../utils/utils';
 
@@ -13,8 +13,8 @@ export class MusicControlsComponent {
   public currentAudioID: string;
   public currentTrackList: ITrack[];
   public currentTrack: ITrack;
-  public isAutorenewed: boolean = false;
-  public isShuffled: boolean = false;
+  public isAutorenewed: boolean;
+  public isShuffled: boolean;
   public isTracksListEnd: boolean = false;
 
   constructor(
@@ -22,6 +22,9 @@ export class MusicControlsComponent {
   ) {
     this.listenAudioService();
     this.listenAudioChanges();
+    this.listenTrackListChanges();
+    this.isAutorenewed = this.audioService.getAutorenew();
+    this.isShuffled = this.audioService.getShuffle();
   }
 
   listenAudioService() {
@@ -32,18 +35,25 @@ export class MusicControlsComponent {
 
   listenAudioChanges() {
     this.audioService.getAudioIDChange().subscribe(newAudioID => {
-      if (this.currentAudioID !== newAudioID) {
-        this.currentAudioID = newAudioID;
-        this.getAudioDetails();
-      }
+      this.currentAudioID = newAudioID;
+      this.currentTrackList = this.audioService.getTrackList();
+      this.getAudioDetails();
+    })
+  }
+
+  listenTrackListChanges() {
+    this.audioService.getTrackListChange().subscribe((newTrackList: ITrack[]) => {
+      this.currentTrackList = newTrackList;
+      this.getAudioDetails();
     })
   }
 
   getAudioDetails() {
-    this.currentTrackList = this.audioService.getTrackList();
     this.currentTrack = this.currentTrackList.find(track => track.id === this.currentAudioID);
-    const isLastAudio = this.currentTrack.track_number + 1 === this.currentTrackList.length;
-    isLastAudio ? this.isTracksListEnd = true : this.isTracksListEnd = false;
+    if (this.currentTrack) {
+      const isLastAudio = this.currentTrack.track_number + 1 === this.currentTrackList.length;
+      isLastAudio ? this.isTracksListEnd = true : this.isTracksListEnd = false;
+    }
   }
 
   convertTime(time: number) {

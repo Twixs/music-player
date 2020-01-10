@@ -5,7 +5,7 @@
     </a>
     <app-search></app-search>
     <div>
-      <img [src]="profileImage" width="50" height="50" alt="User photo" class="profile-image">
+      <img *ngIf="profileImage" [src]="profileImage" width="50" height="50" alt="User photo" class="profile-image">
       <h6>{{username}}</h6>
     </div>
 </nav>
