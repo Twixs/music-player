@@ -97,4 +97,8 @@ export class MusicControlsComponent {
     this.isShuffled = !this.isShuffled;
     this.audioService.setShuffle(this.isShuffled);
   }
+
+  setVolume(change) {
+    this.audioService.setVolume(change.value);
+  }
 }

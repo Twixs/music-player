@@ -20,7 +20,7 @@
                 <h5>{{currentTrack?.name}}</h5>
                 <h6>{{currentTrack?.artists[0].name}}</h6>
             </div>
-            <p> {{convertTime(currentTrack?.duration_ms)}} </p>
+            <p>{{state?.readableCurrentTime}}</p>
         </div>
         <mat-slider class="time-slider" min="0" [max]="state?.duration" step="1" [value]="state?.currentTime"
             (input)="rewindTo($event)">
@@ -29,4 +29,12 @@
     <button class="transparent_button" (click)="shuffle()">
         <i class="material-icons" [style.opacity]="isShuffled ? '1' : '0.6'">shuffle</i>
     </button>
+    <div class="play-controls">
+        <button class="transparent_button">
+            <i class="material-icons">volume_up</i>
+        </button>
+        <mat-slider class="time-slider" min="0" [max]="1" step="0.1" [value]="state?.volume"
+            (input)="setVolume($event)">
+        </mat-slider>
+    </div>
 </div>

@@ -33,7 +33,8 @@ export class AudioService {
         duration: undefined,
         currentTime: undefined,
         canplay: false,
-        error: false
+        error: false,
+        volume: 0.8
     };
 
     private stateChange: BehaviorSubject<StreamState> = new BehaviorSubject(
@@ -86,7 +87,8 @@ export class AudioService {
             duration: undefined,
             currentTime: undefined,
             canplay: false,
-            error: false
+            error: false,
+            volume: 0.8
         };
     }
 
@@ -164,6 +166,10 @@ export class AudioService {
 
     rewindTo(seconds: number) {
         this.audioObj.currentTime = seconds;
+    }
+
+    setVolume(volume: number) {
+        this.audioObj.volume = volume;
     }
 
     playNextTrack() {
