@@ -16,6 +16,7 @@ export class MusicControlsComponent {
   public isAutorenewed: boolean;
   public isShuffled: boolean;
   public isTracksListEnd: boolean = false;
+  public isVolumeOff: boolean = false;
 
   constructor(
     private audioService: AudioService
@@ -30,6 +31,11 @@ export class MusicControlsComponent {
   listenAudioService() {
     this.audioService.getState().subscribe(newState => {
       this.state = newState;
+      if (newState.volume > 0) {
+        this.isVolumeOff = false;
+      } else {
+        this.isVolumeOff = true;
+      }
     })
   }
 
@@ -52,7 +58,7 @@ export class MusicControlsComponent {
     this.currentTrack = this.currentTrackList.find(track => track.id === this.currentAudioID);
     if (this.currentTrack) {
       const isLastAudio = this.currentTrack.track_number + 1 === this.currentTrackList.length;
-      isLastAudio ? this.isTracksListEnd = true : this.isTracksListEnd = false;
+      this.isTracksListEnd = isLastAudio;
     }
   }
 
@@ -77,6 +83,10 @@ export class MusicControlsComponent {
   }
 
   playNextTrack() {
+    if (this.isShuffled) {
+      let randomTrack = this.audioService.randomize();
+      return this.audioService.playStream(this.currentTrackList[randomTrack]);
+    }
     this.audioService.playNextTrack()
   }
 

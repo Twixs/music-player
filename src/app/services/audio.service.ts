@@ -13,6 +13,7 @@ export class AudioService {
     private audioID: string;
     private albumId: string;
     private trackList: ITrack[] = [];
+    private lastRandom: number[] = [];
     private isAutorenewed: boolean = false;
     private isShuffled: boolean = false;
     audioEvents = [
@@ -124,6 +125,7 @@ export class AudioService {
         if (trackList) {
             this.trackList = trackList;
             this.trackListChange.next(trackList);
+            this.lastRandom = [];
         }
         this.streamObservable(preview_url).pipe(takeUntil(this.stop$)).subscribe((event: Event) => {
             if (event.type === 'ended') {
@@ -132,8 +134,7 @@ export class AudioService {
                     return this.play();
                 }
                 if (this.isShuffled) {
-                    const nextTrack = Math.round(Math.random() * (this.trackList.length - 1));
-                    return this.playStream(this.trackList[nextTrack]);
+                    return this.playStream(this.trackList[this.randomize()]);
                 }
                 this.playNextTrack();
             }
@@ -162,6 +163,7 @@ export class AudioService {
 
     stop() {
         this.stop$.next();
+        this.state.volume = this.audioObj.volume;
     }
 
     rewindTo(seconds: number) {
@@ -170,6 +172,8 @@ export class AudioService {
 
     setVolume(volume: number) {
         this.audioObj.volume = volume;
+        this.state.volume = volume;
+        this.stateChange.next(this.state);
     }
 
     playNextTrack() {
@@ -238,5 +242,16 @@ export class AudioService {
 
     getShuffle() {
         return this.isShuffled;
+    }
+
+    randomize() {
+        if (this.lastRandom.length === this.trackList.length) this.lastRandom = [];
+        let nextTrack: number;
+        do {
+            nextTrack = Math.round(Math.random() * (this.trackList.length - 1));
+        } while (this.lastRandom.includes(nextTrack));
+        this.lastRandom.push(nextTrack);
+        this.stop();
+        return nextTrack;
     }
 }

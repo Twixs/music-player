@@ -13,7 +13,7 @@ export class SpotifyApiService {
     const params = {
       endpoint: 'browse/new-releases',
       queryParams: {
-        limit: 25,
+        limit: 24,
         country: 'US'
       }
     };
@@ -37,7 +37,7 @@ export class SpotifyApiService {
       queryParams: {
         q: str,
         type: 'album',
-        limit: 25
+        limit: 24
       }
     };
     this.$http.request(params).subscribe(({ albums }: any) => {
@@ -65,7 +65,7 @@ export class SpotifyApiService {
     const params = {
       endpoint: 'browse/categories',
       queryParams: {
-        limit: 25,
+        limit: 24,
         country: 'US'
       }
     };
@@ -76,7 +76,7 @@ export class SpotifyApiService {
     const params = {
       endpoint: `browse/categories/${category_id}/playlists`,
       queryParams: {
-        limit: 25,
+        limit: 24,
         country: 'US'
       }
     };
