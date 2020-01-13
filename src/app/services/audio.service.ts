@@ -113,7 +113,7 @@ export class AudioService {
                 // remove event listeners
                 this.removeEvents(this.audioObj, this.audioEvents, handler);
                 // reset state
-                this.resetState();
+                // this.resetState();
             };
         });
     }

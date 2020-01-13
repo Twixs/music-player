@@ -43,6 +43,7 @@ export class TrackListComponent implements OnInit {
   ) {
     this.audioService.getState().subscribe(newState => {
       this.state = newState;
+      if (this.currentTrack) this.currentTrack.isPlaying = this.state.playing;
     });
     this.audioService.getAudioIDChange().subscribe((id: string) => {
       const serviceAlbumId = this.audioService.getAlbumID();
