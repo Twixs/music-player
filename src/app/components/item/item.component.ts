@@ -6,7 +6,7 @@ import { displayMillisecInMinSec } from '../../utils/utils';
 @Component({
   selector: 'app-item',
   templateUrl: './item.component.html',
-  styleUrls: ['./item.component.scss']
+  styleUrls: ['./item.component.scss'],
 })
 export class ItemComponent {
   @Input() track: ITrack;
@@ -14,7 +14,7 @@ export class ItemComponent {
   public state: any;
 
   constructor(private audioService: AudioService) {
-    this.audioService.getState().subscribe(newState => {
+    this.audioService.getState().subscribe((newState) => {
       this.state = newState;
     });
   }
@@ -53,5 +53,4 @@ export class ItemComponent {
   convertMilliseconds(ms: number) {
     return displayMillisecInMinSec(ms);
   }
-
 }

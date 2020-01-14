@@ -35,7 +35,7 @@ p {
       margin: 0;
       font-size: 36px;
     }
-    i#arrow {
+    i.arrow {
       font-size: 60px;
     }
   }
@@ -51,7 +51,7 @@ p {
       padding-top: 15px;
       position: relative;
       bottom: -10px;
-      .audio-details {
+      .name-details {
         width: fit-content;
       }
     }

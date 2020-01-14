@@ -5,15 +5,11 @@ import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {
-  MatSliderModule,
-  MatDividerModule
-} from '@angular/material';
+import { MatSliderModule, MatDividerModule } from '@angular/material';
 
 import { TrackListComponent } from './track-list.component';
 import { SpotifyApiService } from '../../services/spotify.service';
 import { HttpService } from '../../services/http.service';
-
 
 describe('TrackListComponent', () => {
   let component: TrackListComponent;
@@ -26,17 +22,16 @@ describe('TrackListComponent', () => {
         MatDividerModule,
         HttpClientModule,
         RouterModule.forRoot([]),
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
       ],
       declarations: [TrackListComponent],
       providers: [
         SpotifyApiService,
         HttpService,
-        { provide: APP_BASE_HREF, useValue: '/' }
+        { provide: APP_BASE_HREF, useValue: '/' },
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
-    })
-      .compileComponents();
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -54,8 +49,4 @@ describe('TrackListComponent', () => {
     component.togglePlaylist();
     expect(component.isPlaylistClosed).toBeFalsy();
   });
-
-  it('should convert millisecond in readable format "MM:SS"', () => {
-    expect(component.displayMillisecInMinSec(208906)).toEqual('3:29');
-  })
 });

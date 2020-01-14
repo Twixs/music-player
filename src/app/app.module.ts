@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import {
   MatSliderModule,
   MatDividerModule,
-  MatButtonModule
+  MatButtonModule,
 } from '@angular/material';
 
 // modules
@@ -60,15 +60,19 @@ import { MusicControlsComponent } from './components/music-controls/music-contro
     HttpClientModule,
     MatSliderModule,
     MatDividerModule,
-    MatButtonModule
+    MatButtonModule,
   ],
   providers: [
     AuthService,
     HttpService,
     SpotifyApiService,
     AudioService,
-    { provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true }
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpInterceptorService,
+      multi: true,
+    },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

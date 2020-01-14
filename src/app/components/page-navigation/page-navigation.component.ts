@@ -1,20 +1,26 @@
-import { Component, Input, EventEmitter, Output } from '@angular/core';
+import {
+  Component,
+  Input,
+  EventEmitter,
+  Output,
+  OnChanges,
+} from '@angular/core';
 
 @Component({
   selector: 'app-page-navigation',
   templateUrl: './page-navigation.component.html',
-  styleUrls: ['./page-navigation.component.scss']
+  styleUrls: ['./page-navigation.component.scss'],
 })
-export class PageNavigationComponent {
+export class PageNavigationComponent implements OnChanges {
   @Input() pageInfo: any;
   @Output() goToPage = new EventEmitter<string>();
-  albumsTotal: number;
-  nextPage: string;
-  prevPage: string;
-  page: number = 1;
-  pageCount: string;
+  private albumsTotal: number;
+  private nextPage: string;
+  private prevPage: string;
+  private page = 1;
+  private pageCount: string;
 
-  constructor() { }
+  constructor() {}
 
   ngOnChanges() {
     const { limit, offset, previous, next, total } = this.pageInfo;

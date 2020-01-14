@@ -1,22 +1,21 @@
 <div class="controls-wrapper">
     <div class="play-controls">
         <button class="transparent_button" (click)="playPreviousTrack()">
-            <i class="material-icons" id="arrow">arrow_left</i>
+            <i class="material-icons arrow">arrow_left</i>
         </button>
         <button class="transparent_button" (click)="playNextTrack()" [disabled]="isTracksListEnd">
-            <i class="material-icons" id="arrow" [style.opacity]="isTracksListEnd ? '0.6' : '1'">arrow_right</i>
+            <i class="material-icons arrow" [style.opacity]="isTracksListEnd ? '0.6' : '1'">arrow_right</i>
         </button>
     </div>
     <button class="transparent_button" (click)="autorenew()">
         <i class="material-icons" [style.opacity]="isAutorenewed ? '1' : '0.6'">autorenew</i>
     </button>
     <button class="transparent_button" (click)="playPause()">
-        <i class="material-icons" id="play" *ngIf="state?.playing">pause_circle_outline</i>
-        <i class="material-icons" id="pause" *ngIf="!state?.playing">play_circle_outline</i>
+        <i class="material-icons">{{state?.playing ? 'pause_circle_outline' : 'play_circle_outline'}}</i>
     </button>
     <div class="audio-details">
         <div class="track-details">
-            <div class="audio-details">
+            <div class="name-details">
                 <h5>{{currentTrack?.name}}</h5>
                 <h6>{{currentTrack?.artists[0].name}}</h6>
             </div>
@@ -30,12 +29,9 @@
         <i class="material-icons" [style.opacity]="isShuffled ? '1' : '0.6'">shuffle</i>
     </button>
     <div class="play-controls">
-        <button class="transparent_button" *ngIf="!isVolumeOff">
-            <i class="material-icons">volume_up</i>
-        </button>
-        <button class="transparent_button" *ngIf="isVolumeOff">
-            <i class="material-icons">volume_off</i>
-        </button>
+        <div class="transparent_button">
+            <i class="material-icons">{{isVolumeOff ? 'volume_off' : 'volume_up'}}</i>
+        </div>
         <mat-slider class="time-slider" min="0" [max]="1" step="0.1" [value]="state?.volume"
             (input)="setVolume($event)">
         </mat-slider>

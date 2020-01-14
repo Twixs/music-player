@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
+import { searchParamsAsObj } from '../utils/utils';
 
 import { HttpService } from './http.service';
 
@@ -7,15 +8,15 @@ import { HttpService } from './http.service';
 export class SpotifyApiService {
   public dataList$ = new Subject<any>();
 
-  constructor(private $http: HttpService) { }
+  constructor(private $http: HttpService) {}
 
   getAlbums() {
     const params = {
       endpoint: 'browse/new-releases',
       queryParams: {
         limit: 24,
-        country: 'US'
-      }
+        country: 'US',
+      },
     };
     return this.$http.request(params);
   }
@@ -25,20 +26,21 @@ export class SpotifyApiService {
       endpoint: `albums/${id}`,
       queryParams: {
         limit: 25,
-        country: 'US'
-      }
+        country: 'US',
+      },
     };
     return this.$http.request(params);
   }
 
-  searchMusic(str: string) {
+  searchMusic(q: string, offset: string = '0') {
     const params = {
       endpoint: 'search',
       queryParams: {
-        q: str,
+        q,
         type: 'album',
-        limit: 24
-      }
+        limit: 24,
+        offset,
+      },
     };
     this.$http.request(params).subscribe(({ albums }: any) => {
       this.dataList$.next(albums);
@@ -46,19 +48,8 @@ export class SpotifyApiService {
   }
 
   getNextAlbums(next: string) {
-    const params = {
-      endpoint: 'search',
-      queryParams: {}
-    };
-    const questionMarkIndex = next.indexOf('?');
-    const paramsPairs = next.slice(questionMarkIndex + 1).split('&');
-    paramsPairs.map(param => {
-      let pair = param.split('=');
-      params.queryParams[pair[0]] = pair[1];
-    });
-    this.$http.request(params).subscribe(({ albums }: any) => {
-      this.dataList$.next(albums);
-    });
+    const { query, offset } = searchParamsAsObj(next);
+    this.searchMusic(query, offset);
   }
 
   getCategories() {
@@ -66,30 +57,30 @@ export class SpotifyApiService {
       endpoint: 'browse/categories',
       queryParams: {
         limit: 24,
-        country: 'US'
-      }
+        country: 'US',
+      },
     };
     return this.$http.request(params);
   }
 
-  getCategoryPlaylist(category_id: string) {
+  getCategoryPlaylist(categoryID: string) {
     const params = {
-      endpoint: `browse/categories/${category_id}/playlists`,
+      endpoint: `browse/categories/${categoryID}/playlists`,
       queryParams: {
         limit: 24,
-        country: 'US'
-      }
+        country: 'US',
+      },
     };
     return this.$http.request(params);
   }
 
-  getCategoryTracks(playlist_id: string) {
+  getCategoryTracks(playlistID: string) {
     const params = {
-      endpoint: `playlists/${playlist_id}/tracks`,
+      endpoint: `playlists/${playlistID}/tracks`,
       queryParams: {
         limit: 25,
-        country: 'US'
-      }
+        country: 'US',
+      },
     };
     return this.$http.request(params);
   }
@@ -97,7 +88,7 @@ export class SpotifyApiService {
   getUser() {
     const params = {
       endpoint: 'me',
-      queryParams: {}
+      queryParams: {},
     };
     return this.$http.request(params);
   }

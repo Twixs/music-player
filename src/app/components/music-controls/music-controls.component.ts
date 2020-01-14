@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AudioService } from '../../services/audio.service';
 import { StreamState, ITrack } from '../../types/interfaces';
 import { displayMillisecInMinSec } from '../../utils/utils';
@@ -6,21 +6,21 @@ import { displayMillisecInMinSec } from '../../utils/utils';
 @Component({
   selector: 'app-music-controls',
   templateUrl: './music-controls.component.html',
-  styleUrls: ['./music-controls.component.scss']
+  styleUrls: ['./music-controls.component.scss'],
 })
-export class MusicControlsComponent {
+export class MusicControlsComponent implements OnInit {
   public state: StreamState;
   public currentAudioID: string;
   public currentTrackList: ITrack[];
   public currentTrack: ITrack;
   public isAutorenewed: boolean;
   public isShuffled: boolean;
-  public isTracksListEnd: boolean = false;
-  public isVolumeOff: boolean = false;
+  public isTracksListEnd = false;
+  public isVolumeOff = false;
 
-  constructor(
-    private audioService: AudioService
-  ) {
+  constructor(private audioService: AudioService) {}
+
+  ngOnInit() {
     this.listenAudioService();
     this.listenAudioChanges();
     this.listenTrackListChanges();
@@ -29,36 +29,41 @@ export class MusicControlsComponent {
   }
 
   listenAudioService() {
-    this.audioService.getState().subscribe(newState => {
+    this.audioService.getState().subscribe((newState) => {
       this.state = newState;
       if (newState.volume > 0) {
         this.isVolumeOff = false;
       } else {
         this.isVolumeOff = true;
       }
-    })
+    });
   }
 
   listenAudioChanges() {
-    this.audioService.getAudioIDChange().subscribe(newAudioID => {
+    this.audioService.getAudioIDChange().subscribe((newAudioID) => {
       this.currentAudioID = newAudioID;
       this.currentTrackList = this.audioService.getTrackList();
       this.getAudioDetails();
-    })
+    });
   }
 
   listenTrackListChanges() {
-    this.audioService.getTrackListChange().subscribe((newTrackList: ITrack[]) => {
-      this.currentTrackList = newTrackList;
-      this.getAudioDetails();
-    })
+    this.audioService
+      .getTrackListChange()
+      .subscribe((newTrackList: ITrack[]) => {
+        this.currentTrackList = newTrackList;
+        this.getAudioDetails();
+      });
   }
 
   getAudioDetails() {
-    this.currentTrack = this.currentTrackList.find(track => track.id === this.currentAudioID);
+    this.currentTrack = this.currentTrackList.find(
+      (track) => track.id === this.currentAudioID
+    );
     if (this.currentTrack) {
-      const isLastAudio = this.currentTrack.track_number + 1 === this.currentTrackList.length;
-      this.isTracksListEnd = isLastAudio;
+      const isLastAudio =
+        this.currentTrack.track_number + 1 === this.currentTrackList.length;
+      this.isTracksListEnd = isLastAudio && !this.isShuffled;
     }
   }
 
@@ -68,34 +73,22 @@ export class MusicControlsComponent {
 
   playPause() {
     if (this.state.playing) {
-      this.pause()
+      this.audioService.pause();
     } else {
-      this.play()
+      this.audioService.play();
     }
-  }
-
-  play() {
-    this.audioService.play()
-  }
-
-  pause() {
-    this.audioService.pause()
   }
 
   playNextTrack() {
-    if (this.isShuffled) {
-      let randomTrack = this.audioService.randomize();
-      return this.audioService.playStream(this.currentTrackList[randomTrack]);
-    }
-    this.audioService.playNextTrack()
+    this.audioService.playNextTrack();
   }
 
   playPreviousTrack() {
-    this.audioService.playPreviousTrack()
+    this.audioService.playPreviousTrack();
   }
 
   rewindTo(change) {
-    this.audioService.rewindTo(change.value)
+    this.audioService.rewindTo(change.value);
   }
 
   autorenew() {
@@ -106,6 +99,7 @@ export class MusicControlsComponent {
   shuffle() {
     this.isShuffled = !this.isShuffled;
     this.audioService.setShuffle(this.isShuffled);
+    this.getAudioDetails();
   }
 
   setVolume(change) {
