@@ -30,4 +30,8 @@ export class GridListComponent {
 
     this.router.navigate([`/${this.route}`, item.id], navigationExtras);
   }
+
+  cutHeading(heading: string) {
+    return heading.length > 32 ? heading.slice(0, 32) + '...' : heading;
+  }
 }

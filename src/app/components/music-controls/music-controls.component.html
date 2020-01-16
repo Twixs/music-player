@@ -3,11 +3,12 @@
     <h4>Now Playing</h4>
     <div class="current-track">
         <div class="transparent_button"><i class="material-icons">music_note</i></div>
-        <h5>{{currentTrack?.name}} by {{currentTrack?.artists[0].name}}</h5>
+        <h5>{{currentTrack?.name}} by {{getArtists(currentTrack?.artists)}}</h5>
     </div>
     <h4>Current Track List</h4>
     <div *ngFor="let track of currentTrackList">
-        <app-item [track]="track" *ngIf="track.name !== currentTrack.name" (newCurrentTrack)="playStream($event)">
+        <app-item *ngIf="track.name !== currentTrack.name" [track]="track" [showArtist]="true"
+            (newCurrentTrack)="playStream($event)">
         </app-item>
     </div>
 </div>
@@ -30,7 +31,7 @@
         <div class="track-details">
             <div class="name-details">
                 <h5>{{currentTrack?.name}}</h5>
-                <h6>{{currentTrack?.artists[0].name}}</h6>
+                <h6>{{getArtists(currentTrack?.artists)}}</h6>
             </div>
             <p>{{state?.readableCurrentTime}}</p>
         </div>

@@ -52,7 +52,7 @@ export class TrackListComponent implements OnInit {
     private route: ActivatedRoute,
     private spotifyService: SpotifyApiService,
     private audioService: AudioService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.albumId = this.route.snapshot.paramMap.get('id');
@@ -85,7 +85,7 @@ export class TrackListComponent implements OnInit {
         }
       );
     }
-    this.audioService.getState().subscribe(newState => {
+    this.audioService.getState().subscribe((newState) => {
       this.state = newState;
       if (this.currentTrack) this.currentTrack.isPlaying = this.state.playing;
     });

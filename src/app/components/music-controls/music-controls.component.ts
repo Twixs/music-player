@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AudioService } from '../../services/audio.service';
 import { StreamState, ITrack } from '../../types/interfaces';
-import { displayMillisecInMinSec } from '../../utils/utils';
+import { displayMillisecInMinSec, getArtists } from '../../utils/utils';
 import {
   state,
   style,
@@ -44,7 +44,7 @@ export class MusicControlsComponent implements OnInit {
   public isTracksListEnd = false;
   public isVolumeOff = false;
 
-  constructor(private audioService: AudioService) { }
+  constructor(private audioService: AudioService) {}
 
   ngOnInit() {
     this.listenAudioService();
@@ -136,5 +136,9 @@ export class MusicControlsComponent implements OnInit {
     if (this.currentTrack) this.currentTrack.isPlaying = false;
     this.currentTrack = track;
     this.audioService.playStream(track, this.currentTrackList);
+  }
+
+  getArtists(artists: any[]) {
+    return getArtists(artists);
   }
 }

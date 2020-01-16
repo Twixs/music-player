@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { ITrack } from '../../types/interfaces';
 import { AudioService } from 'src/app/services/audio.service';
-import { displayMillisecInMinSec } from '../../utils/utils';
+import { displayMillisecInMinSec, getArtists } from '../../utils/utils';
 
 @Component({
   selector: 'app-item',
@@ -10,6 +10,7 @@ import { displayMillisecInMinSec } from '../../utils/utils';
 })
 export class ItemComponent {
   @Input() track: ITrack;
+  @Input() showArtist: boolean;
   @Output() newCurrentTrack = new EventEmitter<ITrack>();
   public state: any;
 
@@ -51,5 +52,9 @@ export class ItemComponent {
 
   convertMilliseconds(ms: number) {
     return displayMillisecInMinSec(ms);
+  }
+
+  getArtists(artists: any[]) {
+    return getArtists(artists);
   }
 }
