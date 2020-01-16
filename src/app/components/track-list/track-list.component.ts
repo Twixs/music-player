@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import {
   state,
   style,
@@ -52,20 +52,7 @@ export class TrackListComponent implements OnInit {
     private route: ActivatedRoute,
     private spotifyService: SpotifyApiService,
     private audioService: AudioService
-  ) {
-    this.audioService.getState().subscribe((newState) => {
-      this.state = newState;
-      if (this.currentTrack) this.currentTrack.isPlaying = this.state.playing;
-    });
-    this.audioService.getAudioIDChange().subscribe((id: string) => {
-      const serviceAlbumId = this.audioService.getAlbumID();
-      if (this.currentTrack && this.albumId === serviceAlbumId) {
-        this.currentTrack.isPlaying = false;
-        this.currentTrack = this.tracks.find((track) => track.id === id);
-        if (this.currentTrack) this.currentTrack.isPlaying = true;
-      }
-    });
-  }
+  ) { }
 
   ngOnInit() {
     this.albumId = this.route.snapshot.paramMap.get('id');
@@ -98,6 +85,17 @@ export class TrackListComponent implements OnInit {
         }
       );
     }
+    this.audioService.getState().subscribe(newState => {
+      this.state = newState;
+      if (this.currentTrack) this.currentTrack.isPlaying = this.state.playing;
+    });
+    this.audioService.getAudioIDChange().subscribe((id: string) => {
+      const serviceAlbumId = this.audioService.getAlbumID();
+      if (this.currentTrack && this.albumId === serviceAlbumId) {
+        this.currentTrack.isPlaying = false;
+        this.currentTrack = this.tracks.find((track) => track.id === id);
+      }
+    });
   }
 
   filterTracksWithPreviewURL(items: ITrack[]) {

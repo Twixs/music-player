@@ -34,6 +34,7 @@ p {
       color: $greenThemeColor;
       margin: 0;
       font-size: 36px;
+      cursor: pointer;
     }
     i.arrow {
       font-size: 60px;
@@ -48,7 +49,7 @@ p {
       flex-direction: row;
       justify-content: space-between;
       align-items: flex-end;
-      padding-top: 15px;
+      padding-top: 10px;
       position: relative;
       bottom: -10px;
       .name-details {
@@ -59,4 +60,48 @@ p {
 }
 .mat-slider {
   padding: 0;
+}
+.track-list {
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 100%;
+  height: calc(100% - 105px);
+  padding: 55px;
+  background-color: $darkBackgroundColor;
+  overflow-y: scroll;
+  h1, h4 {
+    color: $lightFontColor;
+    margin-bottom: 20px;
+  }
+  .current-track {
+    display: flex;
+    margin-bottom: 40px;
+    h5 {
+      color: $greenThemeColor;
+    }
+    div {
+      display: flex;
+      align-items: center;
+      i {
+        color: $greenThemeColor;
+        font-size: 24px;
+        margin-right: 10px;
+      }
+    }
+  }
+  &::-webkit-scrollbar-track {
+    border-radius: 7px;
+    background: rgba($color: $darkBackgroundColor, $alpha: 0);
+  }
+  &::-webkit-scrollbar {
+    width: 7px;
+    opacity: 0.6;
+    background: rgba($color: $darkBackgroundColor, $alpha: 0);
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 7px;
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    background-color: $lightFontColor;
+  }
 }

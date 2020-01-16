@@ -2,11 +2,36 @@ import { Component, OnInit } from '@angular/core';
 import { AudioService } from '../../services/audio.service';
 import { StreamState, ITrack } from '../../types/interfaces';
 import { displayMillisecInMinSec } from '../../utils/utils';
+import {
+  state,
+  style,
+  transition,
+  animate,
+  trigger,
+} from '@angular/animations';
 
 @Component({
   selector: 'app-music-controls',
   templateUrl: './music-controls.component.html',
   styleUrls: ['./music-controls.component.scss'],
+  animations: [
+    trigger('slideInOut', [
+      state(
+        'in',
+        style({
+          transform: 'translate3d(0, 0, 0)',
+        })
+      ),
+      state(
+        'out',
+        style({
+          transform: 'translate3d(0, 100%, 0)',
+        })
+      ),
+      transition('in => out', animate('400ms ease-in-out')),
+      transition('out => in', animate('400ms ease-in-out')),
+    ]),
+  ],
 })
 export class MusicControlsComponent implements OnInit {
   public state: StreamState;
@@ -15,10 +40,11 @@ export class MusicControlsComponent implements OnInit {
   public currentTrack: ITrack;
   public isAutorenewed: boolean;
   public isShuffled: boolean;
+  public showTrackList = false;
   public isTracksListEnd = false;
   public isVolumeOff = false;
 
-  constructor(private audioService: AudioService) {}
+  constructor(private audioService: AudioService) { }
 
   ngOnInit() {
     this.listenAudioService();
@@ -31,11 +57,7 @@ export class MusicControlsComponent implements OnInit {
   listenAudioService() {
     this.audioService.getState().subscribe((newState) => {
       this.state = newState;
-      if (newState.volume > 0) {
-        this.isVolumeOff = false;
-      } else {
-        this.isVolumeOff = true;
-      }
+      this.isVolumeOff = newState.volume <= 0;
     });
   }
 
@@ -104,5 +126,15 @@ export class MusicControlsComponent implements OnInit {
 
   setVolume(change) {
     this.audioService.setVolume(change.value);
+  }
+
+  openTracksList() {
+    this.showTrackList = !this.showTrackList;
+  }
+
+  playStream(track: ITrack) {
+    if (this.currentTrack) this.currentTrack.isPlaying = false;
+    this.currentTrack = track;
+    this.audioService.playStream(track, this.currentTrackList);
   }
 }

@@ -45,6 +45,7 @@
       }
       &:hover h3 {
         visibility: visible;
+        cursor: pointer;
       }
       &::before {
         content: "";

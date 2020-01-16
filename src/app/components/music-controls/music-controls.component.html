@@ -1,3 +1,16 @@
+<div class="track-list" [@slideInOut]="showTrackList ? 'in' : 'out'">
+    <h1>Play Queue</h1>
+    <h4>Now Playing</h4>
+    <div class="current-track">
+        <div class="transparent_button"><i class="material-icons">music_note</i></div>
+        <h5>{{currentTrack?.name}} by {{currentTrack?.artists[0].name}}</h5>
+    </div>
+    <h4>Current Track List</h4>
+    <div *ngFor="let track of currentTrackList">
+        <app-item [track]="track" *ngIf="track.name !== currentTrack.name" (newCurrentTrack)="playStream($event)">
+        </app-item>
+    </div>
+</div>
 <div class="controls-wrapper">
     <div class="play-controls">
         <button class="transparent_button" (click)="playPreviousTrack()">
@@ -36,4 +49,7 @@
             (input)="setVolume($event)">
         </mat-slider>
     </div>
+    <button class="transparent_button" (click)="openTracksList()">
+        <i class="material-icons">menu_open</i>
+    </button>
 </div>

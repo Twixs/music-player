@@ -168,8 +168,9 @@ export class AudioService {
   }
 
   stop() {
+    const volume = this.state.volume;
     this.stop$.next();
-    this.state.volume = this.audioObj.volume;
+    this.state.volume = volume;
   }
 
   rewindTo(seconds: number) {

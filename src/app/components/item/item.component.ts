@@ -34,7 +34,6 @@ export class ItemComponent {
 
   play(track: ITrack) {
     const id = this.audioService.getAudioID();
-    track.isPlaying = true;
     if (id === track.id) {
       this.audioService.play();
     } else {
