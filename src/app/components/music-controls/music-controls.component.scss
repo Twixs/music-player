@@ -12,6 +12,7 @@ p {
 }
 .controls-wrapper {
   position: fixed;
+  z-index: 3;
   bottom: 0;
   width: 100vw;
   background-color: $darkBackgroundColor;
@@ -83,6 +84,7 @@ p {
 }
 .track-list {
   position: fixed;
+  z-index: 3;
   right: 0;
   top: 0;
   width: 100%;

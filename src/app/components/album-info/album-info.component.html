@@ -1,6 +1,6 @@
 <div class="info">
     <div class="album-image">
-        <img [src]="coverImage" alt="Album Cover">
+        <img *ngIf="coverImage" [src]="coverImage" alt="Album Cover">
     </div>
     <div class="album-info">
         <h1>{{albumName}}</h1>

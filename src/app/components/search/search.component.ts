@@ -15,8 +15,6 @@ export class SearchComponent {
   constructor(private spotifyService: SpotifyApiService) {
     this.searchString$
       .pipe(debounceTime(250), distinctUntilChanged())
-      .subscribe((searchStr: string) =>
-        searchStr ? this.spotifyService.searchMusic(searchStr) : null
-      );
+      .subscribe((searchStr: string) => (searchStr ? this.spotifyService.searchMusic(searchStr) : null));
   }
 }

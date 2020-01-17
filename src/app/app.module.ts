@@ -1,10 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import {
-  MatSliderModule,
-  MatDividerModule,
-  MatButtonModule,
-} from '@angular/material';
+import { MatSliderModule, MatDividerModule, MatButtonModule } from '@angular/material';
 
 // modules
 import { AppRoutingModule } from './app-routing.module';
@@ -18,6 +14,7 @@ import { HttpService } from './services/http.service';
 import { SpotifyApiService } from './services/spotify.service';
 import { HttpInterceptorService } from './services/http-interceptor.service';
 import { AudioService } from './services/audio.service';
+import { LoaderService } from './services/loader.service';
 
 // components
 import { AppComponent } from './app.component';
@@ -67,6 +64,7 @@ import { MusicControlsComponent } from './components/music-controls/music-contro
     HttpService,
     SpotifyApiService,
     AudioService,
+    LoaderService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HttpInterceptorService,

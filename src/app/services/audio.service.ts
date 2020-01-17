@@ -16,15 +16,7 @@ export class AudioService {
   private lastRandom: number[] = [];
   private isAutorenewed = false;
   private isShuffled = false;
-  audioEvents = [
-    'ended',
-    'error',
-    'play',
-    'playing',
-    'pause',
-    'timeupdate',
-    'canplay',
-  ];
+  audioEvents = ['ended', 'error', 'play', 'playing', 'pause', 'timeupdate', 'canplay', 'volumechange'];
 
   private state: StreamState = {
     playing: false,
@@ -38,17 +30,11 @@ export class AudioService {
     volume: 0.8,
   };
 
-  private stateChange: BehaviorSubject<StreamState> = new BehaviorSubject(
-    this.state
-  );
+  private stateChange: BehaviorSubject<StreamState> = new BehaviorSubject(this.state);
 
-  private audioIDChange: BehaviorSubject<string> = new BehaviorSubject(
-    this.audioID
-  );
+  private audioIDChange: BehaviorSubject<string> = new BehaviorSubject(this.audioID);
 
-  private trackListChange: BehaviorSubject<ITrack[]> = new BehaviorSubject(
-    this.trackList
-  );
+  private trackListChange: BehaviorSubject<ITrack[]> = new BehaviorSubject(this.trackList);
 
   private updateStateEvents(event: Event): void {
     switch (event.type) {
@@ -67,9 +53,10 @@ export class AudioService {
         break;
       case 'timeupdate':
         this.state.currentTime = this.audioObj.currentTime;
-        this.state.readableCurrentTime = this.formatTime(
-          this.state.currentTime
-        );
+        this.state.readableCurrentTime = this.formatTime(this.state.currentTime);
+        break;
+      case 'volumechange':
+        this.state.volume = this.audioObj.volume;
         break;
       case 'error':
         this.resetState();
@@ -112,17 +99,11 @@ export class AudioService {
         this.audioObj.currentTime = 0;
         // remove event listeners
         this.removeEvents(this.audioObj, this.audioEvents, handler);
-        // reset state
-        // this.resetState();
       };
     });
   }
 
-  playStream(
-    { preview_url, id }: ITrack,
-    trackList?: ITrack[],
-    albumId?: string
-  ) {
+  playStream({ preview_url, id }: ITrack, trackList?: ITrack[], albumId?: string) {
     this.audioID = id;
     this.audioIDChange.next(id);
     if (albumId) this.albumId = albumId;
@@ -168,9 +149,7 @@ export class AudioService {
   }
 
   stop() {
-    const volume = this.state.volume;
     this.stop$.next();
-    this.state.volume = volume;
   }
 
   rewindTo(seconds: number) {
@@ -179,22 +158,15 @@ export class AudioService {
 
   setVolume(volume: number) {
     this.audioObj.volume = volume;
-    this.state.volume = volume;
-    this.stateChange.next(this.state);
   }
 
   playNextTrack() {
     if (this.isShuffled) {
       return this.playStream(this.trackList[this.randomize()]);
     }
-    const currentTrack = this.trackList.find(
-      (track) => track.id === this.audioID
-    );
-    const nextTrack = this.trackList.find(
-      (track) => track.track_number - 1 === currentTrack.track_number
-    );
-    const isTrackListEnd =
-      this.trackList.length === currentTrack.track_number + 1;
+    const currentTrack = this.trackList.find((track) => track.id === this.audioID);
+    const nextTrack = this.trackList.find((track) => track.track_number - 1 === currentTrack.track_number);
+    const isTrackListEnd = this.trackList.length === currentTrack.track_number + 1;
     this.stop();
     if (isTrackListEnd) {
       this.audioIDChange.next(null);
@@ -206,24 +178,18 @@ export class AudioService {
   }
 
   playPreviousTrack() {
-    const currentTrack = this.trackList.find(
-      (track) => track.id === this.audioID
-    );
+    const currentTrack = this.trackList.find((track) => track.id === this.audioID);
     const isTrackListStart = currentTrack.track_number - 1 < 0;
     this.stop();
     if (this.isShuffled) {
-      const currentTrackIndex = this.lastRandom.indexOf(
-        currentTrack.track_number
-      );
+      const currentTrackIndex = this.lastRandom.indexOf(currentTrack.track_number);
       const prevRandomTrack = currentTrackIndex
         ? this.trackList[this.lastRandom[currentTrackIndex - 1]]
         : this.trackList[this.lastRandom[currentTrackIndex]];
       return this.playStream(prevRandomTrack);
     }
     if (isTrackListStart) return this.playStream(currentTrack);
-    const prevTrack = this.trackList.find(
-      (track) => track.track_number === currentTrack.track_number - 1
-    );
+    const prevTrack = this.trackList.find((track) => track.track_number === currentTrack.track_number - 1);
     this.playStream(prevTrack);
   }
 

@@ -1,23 +1,21 @@
-<app-loader *ngIf="isLoading"></app-loader>
-<div *ngIf="!isLoading" class="cover" [ngStyle]="{'background-image': getCoverUrl()}">
+<div class="cover" [ngStyle]="{'background-image': getCoverUrl()}">
     <div class="content">
-        <app-navbar></app-navbar>
         <app-album-info [coverImage]="coverImage" [albumName]="albumName" [albumArtist]="albumArtist"
             [releaseDate]="releaseDate" [isPlaylistClosed]="isPlaylistClosed" [tracks]="tracks"
             (isPlaylistClosedOut)="togglePlaylist()"></app-album-info>
-        <div class="track-list" [@slideInOut]="isPlaylistClosed ? 'out' : 'in'">
-            <div class="title">
-                <button mat-button (click)="togglePlaylist()" class="toggle-close">
-                    <i class="material-icons">close</i>
-                </button>
-                <h2>{{albumName}}</h2>
-            </div>
-            <div *ngIf="!tracks.length" class="no-tracks">
-                <p>No tracks available</p>
-            </div>
-            <div *ngFor="let track of tracks">
-                <app-item [track]="track" (newCurrentTrack)="playStream($event)"></app-item>
-            </div>
-        </div>
+    </div>
+</div>
+<div class="track-list" [@slideInOut]="isPlaylistClosed ? 'out' : 'in'">
+    <div class="title">
+        <button mat-button (click)="togglePlaylist()" class="toggle-close">
+            <i class="material-icons">close</i>
+        </button>
+        <h2>{{albumName}}</h2>
+    </div>
+    <div *ngIf="!tracks.length" class="no-tracks">
+        <p>No tracks available</p>
+    </div>
+    <div *ngFor="let track of tracks">
+        <app-item [track]="track" (newCurrentTrack)="playStream($event)"></app-item>
     </div>
 </div>

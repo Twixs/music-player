@@ -35,7 +35,5 @@ export const searchParamsAsObj = (str: string) => {
 };
 
 export const getArtists = (artists: any[]) => {
-  return artists.length > 2
-    ? artists.map((artist) => artist.name).join(', ')
-    : artists[0].name;
+  return artists.map((artist) => artist.name).join(', ');
 };

@@ -1,16 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import {
-  state,
-  style,
-  transition,
-  animate,
-  trigger,
-} from '@angular/animations';
+import { state, style, transition, animate, trigger } from '@angular/animations';
 
 import { SpotifyApiService } from '../../services/spotify.service';
 import { AudioService } from '../../services/audio.service';
 import { ITrack, StreamState } from '../../types/interfaces';
+import { LoaderService } from 'src/app/services/loader.service';
 
 @Component({
   selector: 'app-track-list',
@@ -46,15 +41,16 @@ export class TrackListComponent implements OnInit {
   public navigatedRoute: string;
   public coverImage: string;
   public isPlaylistClosed = true;
-  public isLoading = true;
 
   constructor(
     private route: ActivatedRoute,
     private spotifyService: SpotifyApiService,
-    private audioService: AudioService
+    private audioService: AudioService,
+    private loader: LoaderService
   ) {}
 
   ngOnInit() {
+    this.loader.show();
     this.albumId = this.route.snapshot.paramMap.get('id');
     this.route.queryParams.subscribe((params) => {
       this.albumName = params.name;
@@ -111,7 +107,7 @@ export class TrackListComponent implements OnInit {
         }
         return track;
       });
-    this.isLoading = false;
+    this.loader.hide();
   }
 
   togglePlaylist() {

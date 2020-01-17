@@ -1,2 +1,4 @@
+<app-loader *ngIf="isLoading | async"></app-loader>
+<app-navbar></app-navbar>
 <router-outlet></router-outlet>
 <app-music-controls *ngIf="isMusicPlaying || isMusicPaused"></app-music-controls>

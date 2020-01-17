@@ -2,13 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AudioService } from '../../services/audio.service';
 import { StreamState, ITrack } from '../../types/interfaces';
 import { displayMillisecInMinSec, getArtists } from '../../utils/utils';
-import {
-  state,
-  style,
-  transition,
-  animate,
-  trigger,
-} from '@angular/animations';
+import { state, style, transition, animate, trigger } from '@angular/animations';
 
 @Component({
   selector: 'app-music-controls',
@@ -70,21 +64,16 @@ export class MusicControlsComponent implements OnInit {
   }
 
   listenTrackListChanges() {
-    this.audioService
-      .getTrackListChange()
-      .subscribe((newTrackList: ITrack[]) => {
-        this.currentTrackList = newTrackList;
-        this.getAudioDetails();
-      });
+    this.audioService.getTrackListChange().subscribe((newTrackList: ITrack[]) => {
+      this.currentTrackList = newTrackList;
+      this.getAudioDetails();
+    });
   }
 
   getAudioDetails() {
-    this.currentTrack = this.currentTrackList.find(
-      (track) => track.id === this.currentAudioID
-    );
+    this.currentTrack = this.currentTrackList.find((track) => track.id === this.currentAudioID);
     if (this.currentTrack) {
-      const isLastAudio =
-        this.currentTrack.track_number + 1 === this.currentTrackList.length;
+      const isLastAudio = this.currentTrack.track_number + 1 === this.currentTrackList.length;
       this.isTracksListEnd = isLastAudio && !this.isShuffled;
     }
   }

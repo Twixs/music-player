@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { ITrack } from '../../types/interfaces';
 import { AudioService } from 'src/app/services/audio.service';
 import { displayMillisecInMinSec, getArtists } from '../../utils/utils';
@@ -8,13 +8,15 @@ import { displayMillisecInMinSec, getArtists } from '../../utils/utils';
   templateUrl: './item.component.html',
   styleUrls: ['./item.component.scss'],
 })
-export class ItemComponent {
+export class ItemComponent implements OnInit {
   @Input() track: ITrack;
   @Input() showArtist: boolean;
   @Output() newCurrentTrack = new EventEmitter<ITrack>();
   public state: any;
 
-  constructor(private audioService: AudioService) {
+  constructor(private audioService: AudioService) {}
+
+  ngOnInit() {
     this.audioService.getState().subscribe((newState) => {
       this.state = newState;
     });

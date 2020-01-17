@@ -1,10 +1,4 @@
-import {
-  Component,
-  Input,
-  EventEmitter,
-  Output,
-  OnChanges,
-} from '@angular/core';
+import { Component, Input, EventEmitter, Output, OnChanges } from '@angular/core';
 
 @Component({
   selector: 'app-page-navigation',

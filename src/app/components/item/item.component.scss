@@ -25,12 +25,6 @@
     border: none;
     border-radius: 50%;
     outline: none;
-    #play {
-      color: $greenThemeColor;
-    }
-    #pause {
-      color: $lightFontColor;
-    }
   }
 }
 .mat-slider {
@@ -38,4 +32,10 @@
 }
 .mat-divider {
   border-top-color: rgba($color: $lightFontColor, $alpha: 0.5);
+}
+.greenThemeColor {
+  color: $greenThemeColor;
+}
+.defaultLightColor {
+  color: $lightFontColor;
 }

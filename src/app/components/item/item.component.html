@@ -1,13 +1,13 @@
 <div class="track">
     <button class="transparent_button" (click)="playPause(track)">
-        <i class="material-icons" id="play" *ngIf="track.isPlaying">pause_circle_outline</i>
-        <i class="material-icons" id="pause" *ngIf="!track.isPlaying">play_circle_outline</i>
+        <i class="material-icons greenThemeColor" *ngIf="track.isPlaying">pause_circle_outline</i>
+        <i class="material-icons defaultLightColor" *ngIf="!track.isPlaying">play_circle_outline</i>
     </button>
     <div>
-        <div><h6 [style.color]="track.isPlaying ? '#00d949' : '#ffffff'">{{track.name}}</h6></div>
-        <div *ngIf="showArtist"><h6 [style.color]="track.isPlaying ? '#00d949' : '#ffffff'">by {{getArtists(track.artists)}}</h6></div>
+        <div><h6 [class]="track.isPlaying ? 'greenThemeColor' : 'defaultLightColor'">{{track.name}}</h6></div>
+        <div *ngIf="showArtist"><h6 [class]="track.isPlaying ? 'greenThemeColor' : 'defaultLightColor'">by {{getArtists(track.artists)}}</h6></div>
     </div>
-    <p [style.color]="track.isPlaying ? '#00d949' : '#ffffff'">
+    <p [class]="track.isPlaying ? 'greenThemeColor' : 'defaultLightColor'">
         {{convertMilliseconds(track.duration_ms)}}
     </p>
 </div>
