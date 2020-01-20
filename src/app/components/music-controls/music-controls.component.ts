@@ -58,7 +58,7 @@ export class MusicControlsComponent implements OnInit {
   listenAudioChanges() {
     this.audioService.getAudioIDChange().subscribe((newAudioID) => {
       this.currentAudioID = newAudioID;
-      this.currentTrackList = this.audioService.getTrackList();
+      this.currentTrackList = this.isShuffled ? this.audioService.shuffledTrackList : this.audioService.getTrackList();
       this.getAudioDetails();
     });
   }
@@ -66,6 +66,7 @@ export class MusicControlsComponent implements OnInit {
   listenTrackListChanges() {
     this.audioService.getTrackListChange().subscribe((newTrackList: ITrack[]) => {
       this.currentTrackList = newTrackList;
+      this.isShuffled = this.audioService.getShuffle();
       this.getAudioDetails();
     });
   }
@@ -73,8 +74,8 @@ export class MusicControlsComponent implements OnInit {
   getAudioDetails() {
     this.currentTrack = this.currentTrackList.find((track) => track.id === this.currentAudioID);
     if (this.currentTrack) {
-      const isLastAudio = this.currentTrack.track_number + 1 === this.currentTrackList.length;
-      this.isTracksListEnd = isLastAudio && !this.isShuffled;
+      const currentTrackIndex = this.currentTrackList.map((track) => track.id).indexOf(this.currentTrack.id);
+      this.isTracksListEnd = this.currentTrackList.length === currentTrackIndex + 1;
     }
   }
 
@@ -110,6 +111,9 @@ export class MusicControlsComponent implements OnInit {
   shuffle() {
     this.isShuffled = !this.isShuffled;
     this.audioService.setShuffle(this.isShuffled);
+    this.currentTrackList = this.isShuffled
+      ? this.audioService.shuffleTrackList(this.currentTrackList.slice())
+      : this.audioService.getTrackList();
     this.getAudioDetails();
   }
 

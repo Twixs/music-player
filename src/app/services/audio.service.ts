@@ -13,7 +13,7 @@ export class AudioService {
   private audioID: string;
   private albumId: string;
   private trackList: ITrack[] = [];
-  private lastRandom: number[] = [];
+  public shuffledTrackList = [];
   private isAutorenewed = false;
   private isShuffled = false;
   audioEvents = ['ended', 'error', 'play', 'playing', 'pause', 'timeupdate', 'canplay', 'volumechange'];
@@ -31,9 +31,7 @@ export class AudioService {
   };
 
   private stateChange: BehaviorSubject<StreamState> = new BehaviorSubject(this.state);
-
   private audioIDChange: BehaviorSubject<string> = new BehaviorSubject(this.audioID);
-
   private trackListChange: BehaviorSubject<ITrack[]> = new BehaviorSubject(this.trackList);
 
   private updateStateEvents(event: Event): void {
@@ -106,11 +104,11 @@ export class AudioService {
   playStream({ preview_url, id }: ITrack, trackList?: ITrack[], albumId?: string) {
     this.audioID = id;
     this.audioIDChange.next(id);
-    if (albumId) this.albumId = albumId;
-    if (trackList) {
+    if (trackList && this.albumId !== albumId) {
+      if (albumId) this.albumId = albumId;
+      this.isShuffled = false;
       this.trackList = trackList;
       this.trackListChange.next(trackList);
-      this.lastRandom = [];
     }
     this.streamObservable(preview_url)
       .pipe(takeUntil(this.stop$))
@@ -119,9 +117,6 @@ export class AudioService {
           if (this.isAutorenewed) {
             this.audioObj.currentTime = 0;
             return this.play();
-          }
-          if (this.isShuffled) {
-            return this.playStream(this.trackList[this.randomize()]);
           }
           this.playNextTrack();
         }
@@ -161,17 +156,20 @@ export class AudioService {
   }
 
   playNextTrack() {
-    if (this.isShuffled) {
-      return this.playStream(this.trackList[this.randomize()]);
-    }
     const currentTrack = this.trackList.find((track) => track.id === this.audioID);
-    const nextTrack = this.trackList.find((track) => track.track_number - 1 === currentTrack.track_number);
-    const isTrackListEnd = this.trackList.length === currentTrack.track_number + 1;
+    let nextTrack: ITrack;
+    let isTrackListEnd: boolean;
+    if (this.isShuffled) {
+      const currentTrackIndex = this.shuffledTrackList.map((track) => track.id).indexOf(currentTrack.id);
+      nextTrack = this.shuffledTrackList[currentTrackIndex + 1];
+      isTrackListEnd = this.shuffledTrackList.length === currentTrackIndex + 1;
+    } else {
+      nextTrack = this.trackList.find((track) => track.track_number - 1 === currentTrack.track_number);
+      isTrackListEnd = this.trackList.length === currentTrack.track_number + 1;
+    }
     this.stop();
     if (isTrackListEnd) {
-      this.audioIDChange.next(null);
       this.state.playing = false;
-      this.state.paused = false;
       return this.stateChange.next(this.state);
     }
     this.playStream(nextTrack);
@@ -179,17 +177,18 @@ export class AudioService {
 
   playPreviousTrack() {
     const currentTrack = this.trackList.find((track) => track.id === this.audioID);
-    const isTrackListStart = currentTrack.track_number - 1 < 0;
-    this.stop();
+    let prevTrack: ITrack;
+    let isTrackListStart: boolean;
     if (this.isShuffled) {
-      const currentTrackIndex = this.lastRandom.indexOf(currentTrack.track_number);
-      const prevRandomTrack = currentTrackIndex
-        ? this.trackList[this.lastRandom[currentTrackIndex - 1]]
-        : this.trackList[this.lastRandom[currentTrackIndex]];
-      return this.playStream(prevRandomTrack);
+      const currentTrackIndex = this.shuffledTrackList.map((track) => track.id).indexOf(currentTrack.id);
+      prevTrack = this.shuffledTrackList[currentTrackIndex - 1];
+      isTrackListStart = currentTrackIndex - 1 < 0;
+    } else {
+      prevTrack = this.trackList.find((track) => track.track_number === currentTrack.track_number - 1);
+      isTrackListStart = currentTrack.track_number - 1 < 0;
     }
+    this.stop();
     if (isTrackListStart) return this.playStream(currentTrack);
-    const prevTrack = this.trackList.find((track) => track.track_number === currentTrack.track_number - 1);
     this.playStream(prevTrack);
   }
 
@@ -238,14 +237,12 @@ export class AudioService {
     return this.isShuffled;
   }
 
-  randomize() {
-    if (this.lastRandom.length === this.trackList.length) this.lastRandom = [];
-    let nextTrack: number;
-    do {
-      nextTrack = Math.round(Math.random() * (this.trackList.length - 1));
-    } while (this.lastRandom.includes(nextTrack));
-    this.lastRandom.push(nextTrack);
-    this.stop();
-    return nextTrack;
+  shuffleTrackList(array: ITrack[]) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    this.shuffledTrackList = array;
+    return this.shuffledTrackList;
   }
 }
