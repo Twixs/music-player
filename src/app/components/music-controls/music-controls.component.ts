@@ -38,7 +38,7 @@ export class MusicControlsComponent implements OnInit {
   public isTracksListEnd = false;
   public isVolumeOff = false;
 
-  constructor(private audioService: AudioService) {}
+  constructor(private audioService: AudioService) { }
 
   ngOnInit() {
     this.listenAudioService();
