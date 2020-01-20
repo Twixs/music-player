@@ -38,7 +38,7 @@ export class MusicControlsComponent implements OnInit {
   public isTracksListEnd = false;
   public isVolumeOff = false;
 
-  constructor(private audioService: AudioService) { }
+  constructor(private audioService: AudioService) {}
 
   ngOnInit() {
     this.listenAudioService();
@@ -128,7 +128,7 @@ export class MusicControlsComponent implements OnInit {
   playStream(track: ITrack) {
     if (this.currentTrack) this.currentTrack.isPlaying = false;
     this.currentTrack = track;
-    this.audioService.playStream(track, this.currentTrackList);
+    this.audioService.playStream(track);
   }
 
   getArtists(artists: any[]) {
