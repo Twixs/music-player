@@ -9,13 +9,9 @@ nav {
   margin: 0 !important;
   flex-wrap: nowrap;
   padding: 20px 0;
-  @media screen and (max-width: 585px) {
-    padding: 0;
-  }
   .navbar-link {
     display: flex;
     align-items: center;
-    min-width: 240px;
     img {
       margin-right: 10px;
     }
@@ -26,23 +22,17 @@ nav {
     .profile-image {
       border-radius: 50%;
       margin-right: 10px;
+      object-fit: cover;
     }
     .username {
-      @media screen and (max-width: 720px) {
+      @media screen and (max-width: 890px) {
         display: none;
       }
     }
   }
   @media screen and (max-width: 585px) {
-    flex-wrap: wrap;
     h1 {
       font-size: 28px;
-    }
-    .navbar-link {
-      margin: 15px;
-      width: 100%;
-      display: flex;
-      justify-content: center;
     }
   }
 }
