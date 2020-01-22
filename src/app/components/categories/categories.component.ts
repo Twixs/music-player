@@ -8,7 +8,6 @@ import { SpotifyApiService } from 'src/app/services/spotify.service';
 })
 export class CategoriesComponent implements OnInit {
   public categories: any = [];
-  public isLoaded = false;
 
   constructor(private spotifyService: SpotifyApiService) {}
 
@@ -16,7 +15,6 @@ export class CategoriesComponent implements OnInit {
     this.spotifyService.getCategories().subscribe(({ categories }: any) => {
       const { items } = categories;
       this.categories = items;
-      this.isLoaded = true;
     });
   }
 }

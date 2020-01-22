@@ -1,12 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import {
-  HttpEvent,
-  HttpHandler,
-  HttpHeaders,
-  HttpInterceptor,
-  HttpRequest,
-} from '@angular/common/http';
+import { HttpEvent, HttpHandler, HttpHeaders, HttpInterceptor, HttpRequest } from '@angular/common/http';
 
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -17,13 +11,8 @@ import { AuthService } from './auth.service';
 export class HttpInterceptorService implements HttpInterceptor {
   constructor(private auth: AuthService, private router: Router) {}
 
-  intercept(
-    req: HttpRequest<any>,
-    next: HttpHandler
-  ): Observable<HttpEvent<any>> {
-    return next
-      .handle(this.extendHeaders(req))
-      .pipe(catchError(this.interceptHandler.bind(this)));
+  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    return next.handle(this.extendHeaders(req)).pipe(catchError(this.interceptHandler.bind(this)));
   }
 
   private extendHeaders(req: HttpRequest<any>) {

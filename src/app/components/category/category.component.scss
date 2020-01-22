@@ -15,9 +15,13 @@
 .content {
   width: 90%;
   margin: 0 auto;
-  position: sticky;
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  padding-top: 90px;
   h1 {
-    padding: 20px;
+    padding: 44px 20px;
     color: $lightFontColor;
     @media screen and (max-width: 415px) {
       font-size: 24px;

@@ -22,10 +22,7 @@ export class AlbumInfoComponent {
   }
 
   getFullListeningTime() {
-    const totalTime = this.tracks.reduce(
-      (acc, track) => acc + track.duration_ms,
-      0
-    );
+    const totalTime = this.tracks.reduce((acc, track) => acc + track.duration_ms, 0);
     return Math.round(totalTime / 60000);
   }
 }

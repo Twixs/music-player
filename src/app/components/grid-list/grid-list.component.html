@@ -3,7 +3,7 @@
         <div class="details">
             <a (click)="goTo(item)">
                 <h3>{{cutHeading(item.name)}}</h3>
-                <img [src]="getCoverImage(item?.icons || item?.images)" />
+                <img [src]="getCoverImage(item)" />
             </a>
         </div>
     </div>

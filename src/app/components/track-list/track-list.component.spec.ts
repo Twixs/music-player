@@ -17,19 +17,9 @@ describe('TrackListComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        MatSliderModule,
-        MatDividerModule,
-        HttpClientModule,
-        RouterModule.forRoot([]),
-        BrowserAnimationsModule,
-      ],
+      imports: [MatSliderModule, MatDividerModule, HttpClientModule, RouterModule.forRoot([]), BrowserAnimationsModule],
       declarations: [TrackListComponent],
-      providers: [
-        SpotifyApiService,
-        HttpService,
-        { provide: APP_BASE_HREF, useValue: '/' },
-      ],
+      providers: [SpotifyApiService, HttpService, { provide: APP_BASE_HREF, useValue: '/' }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
   }));
