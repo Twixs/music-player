@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { SpotifyApiService } from '../../services/spotify.service';
 import * as _ from 'lodash';
 
@@ -10,7 +10,8 @@ import * as _ from 'lodash';
 export class NavbarComponent implements OnInit {
   public username: string;
   public profileImage: string;
-  public bgStyle;
+
+  @ViewChild('navElement', { static: true }) navElement: ElementRef;
 
   constructor(private spotifyService: SpotifyApiService) {}
 
@@ -19,10 +20,18 @@ export class NavbarComponent implements OnInit {
       this.username = display_name;
       this.profileImage = _.get(images[0], 'url', null);
     });
-  }
 
-  addBackground() {
-    return (this.bgStyle =
-      window.pageYOffset > 0 ? { 'background-color': '#181818' } : { 'background-color': 'transparent' });
+    const scrollTrackerElement = document.getElementById('scroll-tracker-element');
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          this.navElement.nativeElement.style.backgroundColor =
+            entry.intersectionRatio === 1 ? 'transparent' : '#181818';
+        });
+      },
+      { threshold: [0, 1] }
+    );
+
+    observer.observe(scrollTrackerElement);
   }
 }

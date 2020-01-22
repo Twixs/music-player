@@ -33,3 +33,9 @@ nav {
     }
   }
 }
+#scroll-tracker-element {
+  position: absolute;
+  pointer-events: none;
+  top: 0;
+  height: 20px;
+}
