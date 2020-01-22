@@ -1,6 +1,10 @@
-<div class="background" *ngIf="backgroundUrl" [ngStyle]="{'background-image': 'url('+backgroundUrl+')'}">
+<div class="main-content">
+    <div class="background" *ngIf="backgroundUrl" [ngStyle]="{'background-image': 'url('+backgroundUrl+')'}">
+    </div>
+    <app-navbar></app-navbar>
+    <div class="wrapper">
+        <router-outlet></router-outlet>
+    </div>
 </div>
-<router-outlet></router-outlet>
-<app-navbar></app-navbar>
 <app-music-controls *ngIf="isMusicPlaying"></app-music-controls>
 <app-loader *ngIf="isLoading | async"></app-loader>
