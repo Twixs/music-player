@@ -4,10 +4,20 @@
         <i class="material-icons defaultLightColor" *ngIf="!track.isPlaying">play_circle_outline</i>
     </button>
     <div>
-        <div><h6 [class]="track.isPlaying ? 'greenThemeColor' : 'defaultLightColor'">{{track.name}}</h6></div>
-        <div *ngIf="showArtist"><h6 [class]="track.isPlaying ? 'greenThemeColor' : 'defaultLightColor'">by {{getArtists(track.artists)}}</h6></div>
+        <div>
+            <h6 [ngClass]="{
+            'greenThemeColor': track.isPlaying,
+            'defaultLightColor': !track.isPlaying
+        }">{{track.name}}</h6>
+        </div>
+        <div *ngIf="showArtist">
+            <h6 class="defaultLightColor">by {{getArtists(track.artists)}}</h6>
+        </div>
     </div>
-    <p [class]="track.isPlaying ? 'greenThemeColor' : 'defaultLightColor'">
+    <p [ngClass]="{
+        'greenThemeColor': track.isPlaying,
+        'defaultLightColor': !track.isPlaying
+    }">
         {{convertMilliseconds(track.duration_ms)}}
     </p>
 </div>

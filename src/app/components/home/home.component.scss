@@ -1,20 +1,11 @@
 @import "../../../assets/styles/variables.scss";
 
-.wrapper {
-  background: url("../../../assets/cover.jpg") no-repeat $darkBackgroundColor;
-  background-position: 50% 70%;
-  background-size: cover;
-  &::before {
-    content: "";
-    position: fixed;
-    height: 100%;
-    width: 100%;
-    backdrop-filter: blur(10px) brightness(60%);
-  }
-  .main-content {
-    position: sticky;
-    margin: 0 auto;
-    width: 90%;
-    padding-top: 90px;
-  }
+.main-content {
+  position: absolute;
+  margin: auto;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 90%;
+  padding-top: 90px;
 }

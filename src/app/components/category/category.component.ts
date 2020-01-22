@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { SpotifyApiService } from '../../services/spotify.service';
 import { LoaderService } from '../../services/loader.service';
+import * as _ from 'lodash';
+import { BackgroundImageService } from 'src/app/services/background-image.service';
 
 @Component({
   selector: 'app-category',
@@ -15,7 +17,8 @@ export class CategoryComponent implements OnInit {
   constructor(
     private spotifyService: SpotifyApiService,
     private route: ActivatedRoute,
-    private loader: LoaderService
+    private loader: LoaderService,
+    private background: BackgroundImageService
   ) {}
 
   ngOnInit() {
@@ -23,17 +26,10 @@ export class CategoryComponent implements OnInit {
     const { id } = this.route.snapshot.params;
     this.spotifyService.getCategoryPlaylist(id).subscribe(({ playlists }: any) => {
       const { items } = playlists;
-      this.coverImage = this.getImage(items);
+      this.coverImage = _.get(items[0], 'images[0].url', null);
+      this.background.updateBackgroundUrl(items[0].images[0]);
       this.categoryPlaylists = items;
       this.loader.hide();
     });
-  }
-
-  getCoverUrl() {
-    if (this.coverImage) return 'url(' + this.coverImage + ')';
-  }
-
-  getImage(items: any) {
-    return items[0] && items[0].images ? items[0].images[0].url : null;
   }
 }

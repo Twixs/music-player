@@ -5,7 +5,11 @@ import { state, style, transition, animate, trigger } from '@angular/animations'
 import { SpotifyApiService } from '../../services/spotify.service';
 import { AudioService } from '../../services/audio.service';
 import { ITrack, StreamState } from '../../types/interfaces';
-import { LoaderService } from 'src/app/services/loader.service';
+import { LoaderService } from '../../services/loader.service';
+import { BackgroundImageService } from '../../services/background-image.service';
+
+import { getArtists } from '../../utils/utils';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-track-list',
@@ -46,7 +50,8 @@ export class TrackListComponent implements OnInit {
     private route: ActivatedRoute,
     private spotifyService: SpotifyApiService,
     private audioService: AudioService,
-    private loader: LoaderService
+    private loader: LoaderService,
+    private background: BackgroundImageService
   ) {}
 
   ngOnInit() {
@@ -59,8 +64,9 @@ export class TrackListComponent implements OnInit {
     if (this.navigatedRoute === 'tracks') {
       this.spotifyService.getAlbum(this.albumId).subscribe(
         ({ tracks, images, artists, release_date }: any) => {
-          this.coverImage = images[0].url;
-          this.albumArtist = artists[0].name;
+          this.coverImage = _.get(images[0], 'url', null);
+          this.background.updateBackgroundUrl(images[0]);
+          this.albumArtist = getArtists(artists);
           this.releaseDate = new Date(release_date).getFullYear();
           const { items } = tracks;
           this.filterTracksWithPreviewURL(items);
@@ -72,7 +78,8 @@ export class TrackListComponent implements OnInit {
     } else {
       this.spotifyService.getCategoryTracks(this.albumId).subscribe(
         ({ items }: any) => {
-          this.coverImage = items[0].track.album.images[0].url;
+          this.coverImage = _.get(items[0], 'track.album.images[0].url', null);
+          this.background.updateBackgroundUrl(items[0].track.album.images[0]);
           const tracks = items.map(({ track }) => track);
           this.filterTracksWithPreviewURL(tracks);
         },
@@ -112,10 +119,6 @@ export class TrackListComponent implements OnInit {
 
   togglePlaylist() {
     this.isPlaylistClosed = !this.isPlaylistClosed;
-  }
-
-  getCoverUrl() {
-    if (this.coverImage) return 'url(' + this.coverImage + ')';
   }
 
   playStream(track: ITrack) {

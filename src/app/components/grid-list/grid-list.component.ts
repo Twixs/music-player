@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Router, NavigationExtras } from '@angular/router';
 import '../../../assets/no-cover.jpg';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-grid-list',
@@ -13,8 +14,10 @@ export class GridListComponent {
 
   constructor(private router: Router) {}
 
-  getCoverImage(images: any[]) {
-    return images[0] ? images[0].url : '../../../assets/no-cover.jpg';
+  getCoverImage(item: any) {
+    return item.images
+      ? _.get(item, 'images[0].url', '../../../assets/no-cover.jpg')
+      : _.get(item, 'icons[0].url', '../../../assets/no-cover.jpg');
   }
 
   goTo(item: any) {

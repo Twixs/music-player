@@ -1,9 +1,7 @@
-<div class="cover" [ngStyle]="{'background-image': getCoverUrl()}">
-    <div class="content">
-        <app-album-info [coverImage]="coverImage" [albumName]="albumName" [albumArtist]="albumArtist"
-            [releaseDate]="releaseDate" [isPlaylistClosed]="isPlaylistClosed" [tracks]="tracks"
-            (isPlaylistClosedOut)="togglePlaylist()"></app-album-info>
-    </div>
+<div class="content">
+    <app-album-info [coverImage]="coverImage" [albumName]="albumName" [albumArtist]="albumArtist"
+        [releaseDate]="releaseDate" [isPlaylistClosed]="isPlaylistClosed" [tracks]="tracks"
+        (isPlaylistClosedOut)="togglePlaylist()"></app-album-info>
 </div>
 <div class="track-list" [@slideInOut]="isPlaylistClosed ? 'out' : 'in'">
     <div class="title">

@@ -5,24 +5,10 @@ p {
   margin: 0;
   color: $lightFontColor;
 }
-.cover {
-  height: 100vh;
-  overflow: hidden;
-  background-size: cover;
-  background-position: 70% 30%;
-  background-repeat: no-repeat;
-  &::before {
-    content: "";
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    backdrop-filter: blur(10px) brightness(60%);
-  }
-  .content {
-    width: 90%;
-    margin: 0 auto;
-    position: sticky;
-  }
+.content {
+  width: 90%;
+  margin: 0 auto;
+  position: sticky;
 }
 .mat-button {
   line-height: inherit;
@@ -34,7 +20,7 @@ p {
 }
 .track-list {
   position: fixed;
-  z-index: 2;
+  z-index: 4;
   right: 0;
   top: 0;
   height: 100vh;

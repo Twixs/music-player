@@ -15,6 +15,7 @@ import { SpotifyApiService } from './services/spotify.service';
 import { HttpInterceptorService } from './services/http-interceptor.service';
 import { AudioService } from './services/audio.service';
 import { LoaderService } from './services/loader.service';
+import { BackgroundImageService } from './services/background-image.service';
 
 // components
 import { AppComponent } from './app.component';
@@ -65,6 +66,7 @@ import { MusicControlsComponent } from './components/music-controls/music-contro
     SpotifyApiService,
     AudioService,
     LoaderService,
+    BackgroundImageService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HttpInterceptorService,

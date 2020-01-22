@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { SpotifyApiService } from '../../services/spotify.service';
 import { LoaderService } from 'src/app/services/loader.service';
+import { BackgroundImageService } from 'src/app/services/background-image.service';
 
 @Component({
   selector: 'app-albums-list',
@@ -14,7 +15,11 @@ export class AlbumsListComponent implements OnInit, OnDestroy {
   public albumsTotal: number;
   public pageInfo: any;
 
-  constructor(private spotifyService: SpotifyApiService, private loader: LoaderService) {}
+  constructor(
+    private spotifyService: SpotifyApiService,
+    private loader: LoaderService,
+    private background: BackgroundImageService
+  ) {}
 
   ngOnInit() {
     this.getAlbums();
@@ -27,6 +32,7 @@ export class AlbumsListComponent implements OnInit, OnDestroy {
       ({ albums }: any) => {
         const { items } = albums;
         this.albums = items;
+        this.background.updateBackgroundUrl(items[0].images[0]);
         this.loader.hide();
       },
       (error: any) => console.log(error)

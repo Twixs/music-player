@@ -6,6 +6,7 @@ import { delay } from 'rxjs/operators';
 import { AuthService } from './services/auth.service';
 import { AudioService } from './services/audio.service';
 import { LoaderService } from './services/loader.service';
+import { BackgroundImageService } from './services/background-image.service';
 
 @Component({
   selector: 'app-root',
@@ -13,18 +14,22 @@ import { LoaderService } from './services/loader.service';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  public isMusicPlaying: boolean;
-  public isMusicPaused: boolean;
-  public isLoading: Observable<boolean> = this.loader.isDataLoading.pipe(delay(0));
+  private isMusicPlaying: boolean;
+  private backgroundUrl: string;
+  private isLoading: Observable<boolean> = this.loader.isDataLoading.pipe(delay(0));
 
-  constructor(private auth: AuthService, private audioService: AudioService, private loader: LoaderService) {
-    this.auth.authorize();
-  }
+  constructor(
+    private auth: AuthService,
+    private audioService: AudioService,
+    private loader: LoaderService,
+    private background: BackgroundImageService
+  ) {}
 
   ngOnInit() {
+    this.auth.authorize();
     this.audioService.getState().subscribe(({ playing, paused }) => {
-      this.isMusicPlaying = playing;
-      this.isMusicPaused = paused;
+      this.isMusicPlaying = playing || paused;
     });
+    this.background.$backgroundUrl.subscribe((url) => (this.backgroundUrl = url));
   }
 }

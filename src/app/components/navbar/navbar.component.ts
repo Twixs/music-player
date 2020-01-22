@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { SpotifyApiService } from 'src/app/services/spotify.service';
+import { SpotifyApiService } from '../../services/spotify.service';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-navbar',
@@ -16,7 +17,7 @@ export class NavbarComponent implements OnInit {
   ngOnInit() {
     this.spotifyService.getUser().subscribe(({ display_name, images }) => {
       this.username = display_name;
-      this.profileImage = images[0].url;
+      this.profileImage = _.get(images[0], 'url', null);
     });
   }
 
