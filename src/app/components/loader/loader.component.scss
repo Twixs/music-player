@@ -2,9 +2,15 @@
 
 .loader {
   height: 100vh;
+  width: 100vw;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 5;
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: rgba($color: $darkBackgroundColor, $alpha: 0.8);
   svg {
     vertical-align: middle;
     height: 230px;

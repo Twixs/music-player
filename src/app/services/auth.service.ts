@@ -9,14 +9,13 @@ const { STORAGE_KEY, CLIENT_ID, AUTH_URL, REDIRECT_URI } = environment;
 
 @Injectable()
 export class AuthService {
-
   constructor(private router: Router) {}
 
   authorize(): void {
     if (this.isAuthorized()) return;
 
     const hashUrl = window.location.hash.replace('#', '');
-    const {access_token}: Ihash = parseHash(hashUrl);
+    const { access_token }: Ihash = parseHash(hashUrl);
 
     if (access_token) {
       this.setSessionKey(access_token);
@@ -30,7 +29,7 @@ export class AuthService {
     const queryParams = {
       response_type: 'token',
       client_id: CLIENT_ID,
-      redirect_uri: REDIRECT_URI
+      redirect_uri: REDIRECT_URI,
     };
     const paramsStr = createQueryString(queryParams);
     window.location.href = `${AUTH_URL}?${paramsStr}`;

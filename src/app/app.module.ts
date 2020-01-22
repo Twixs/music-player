@@ -1,10 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import {
-  MatSliderModule,
-  MatDividerModule,
-  MatButtonModule
-} from '@angular/material';
+import { MatSliderModule, MatDividerModule, MatButtonModule } from '@angular/material';
 
 // modules
 import { AppRoutingModule } from './app-routing.module';
@@ -18,6 +14,8 @@ import { HttpService } from './services/http.service';
 import { SpotifyApiService } from './services/spotify.service';
 import { HttpInterceptorService } from './services/http-interceptor.service';
 import { AudioService } from './services/audio.service';
+import { LoaderService } from './services/loader.service';
+import { BackgroundImageService } from './services/background-image.service';
 
 // components
 import { AppComponent } from './app.component';
@@ -33,6 +31,7 @@ import { CategoryComponent } from './components/category/category.component';
 import { GridListComponent } from './components/grid-list/grid-list.component';
 import { AlbumInfoComponent } from './components/album-info/album-info.component';
 import { LoaderComponent } from './components/loader/loader.component';
+import { MusicControlsComponent } from './components/music-controls/music-controls.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +48,7 @@ import { LoaderComponent } from './components/loader/loader.component';
     GridListComponent,
     AlbumInfoComponent,
     LoaderComponent,
+    MusicControlsComponent,
   ],
   imports: [
     FormsModule,
@@ -58,15 +58,21 @@ import { LoaderComponent } from './components/loader/loader.component';
     HttpClientModule,
     MatSliderModule,
     MatDividerModule,
-    MatButtonModule
+    MatButtonModule,
   ],
   providers: [
     AuthService,
     HttpService,
     SpotifyApiService,
     AudioService,
-    { provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true }
+    LoaderService,
+    BackgroundImageService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpInterceptorService,
+      multi: true,
+    },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

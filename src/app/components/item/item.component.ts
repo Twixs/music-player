@@ -1,19 +1,23 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { ITrack } from '../../types/interfaces';
 import { AudioService } from 'src/app/services/audio.service';
+import { displayMillisecInMinSec, getArtists } from '../../utils/utils';
 
 @Component({
   selector: 'app-item',
   templateUrl: './item.component.html',
-  styleUrls: ['./item.component.scss']
+  styleUrls: ['./item.component.scss'],
 })
-export class ItemComponent {
+export class ItemComponent implements OnInit {
   @Input() track: ITrack;
+  @Input() showArtist: boolean;
   @Output() newCurrentTrack = new EventEmitter<ITrack>();
   public state: any;
 
-  constructor(private audioService: AudioService) {
-    this.audioService.getState().subscribe(newState => {
+  constructor(private audioService: AudioService) {}
+
+  ngOnInit() {
+    this.audioService.getState().subscribe((newState) => {
       this.state = newState;
     });
   }
@@ -33,7 +37,6 @@ export class ItemComponent {
 
   play(track: ITrack) {
     const id = this.audioService.getAudioID();
-    track.isPlaying = true;
     if (id === track.id) {
       this.audioService.play();
     } else {
@@ -49,11 +52,11 @@ export class ItemComponent {
     this.audioService.rewindTo(change.value);
   }
 
-  displayMillisecInMinSec(ms: number) {
-    const d = new Date(1000 * Math.round(ms / 1000));
-    let seconds = d.getUTCSeconds().toString();
-    seconds.length < 2 ? seconds = `0${seconds}` : seconds;
-    return `${d.getUTCMinutes()}:${seconds}`;
+  convertMilliseconds(ms: number) {
+    return displayMillisecInMinSec(ms);
   }
 
+  getArtists(artists: any[]) {
+    return getArtists(artists);
+  }
 }

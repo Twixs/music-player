@@ -1,10 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { state, style, transition, animate, trigger } from '@angular/animations';
 
 import { SpotifyApiService } from '../../services/spotify.service';
 import { AudioService } from '../../services/audio.service';
 import { ITrack, StreamState } from '../../types/interfaces';
+import { LoaderService } from '../../services/loader.service';
+import { BackgroundImageService } from '../../services/background-image.service';
+
+import { getArtists } from '../../utils/utils';
+import get from 'lodash.get';
 
 @Component({
   selector: 'app-track-list',
@@ -12,16 +17,22 @@ import { ITrack, StreamState } from '../../types/interfaces';
   styleUrls: ['./track-list.component.scss'],
   animations: [
     trigger('slideInOut', [
-      state('in', style({
-        transform: 'translate3d(0, 0, 0)'
-      })),
-      state('out', style({
-        transform: 'translate3d(100%, 0, 0)'
-      })),
+      state(
+        'in',
+        style({
+          transform: 'translate3d(0, 0, 0)',
+        })
+      ),
+      state(
+        'out',
+        style({
+          transform: 'translate3d(100%, 0, 0)',
+        })
+      ),
       transition('in => out', animate('400ms ease-in-out')),
-      transition('out => in', animate('400ms ease-in-out'))
+      transition('out => in', animate('400ms ease-in-out')),
     ]),
-  ]
+  ],
 })
 export class TrackListComponent implements OnInit {
   public state: StreamState;
@@ -34,57 +45,60 @@ export class TrackListComponent implements OnInit {
   public navigatedRoute: string;
   public coverImage: string;
   public isPlaylistClosed = true;
-  public isLoading: boolean = true;
 
   constructor(
     private route: ActivatedRoute,
     private spotifyService: SpotifyApiService,
-    private audioService: AudioService
-  ) {
-    this.audioService.getState().subscribe(newState => {
+    private audioService: AudioService,
+    private loader: LoaderService,
+    private background: BackgroundImageService
+  ) {}
+
+  ngOnInit() {
+    this.loader.show();
+    this.albumId = this.route.snapshot.paramMap.get('id');
+    this.route.queryParams.subscribe((params) => {
+      this.albumName = params.name;
+      this.navigatedRoute = params.navigatedFrom;
+    });
+    if (this.navigatedRoute === 'tracks') {
+      this.spotifyService.getAlbum(this.albumId).subscribe(
+        ({ tracks, images, artists, release_date }: any) => {
+          this.coverImage = get(images[0], 'url', null);
+          this.background.updateBackgroundUrl(images[0]);
+          this.albumArtist = getArtists(artists);
+          this.releaseDate = new Date(release_date).getFullYear();
+          const { items } = tracks;
+          this.filterTracksWithPreviewURL(items);
+        },
+        (error: any) => {
+          console.log(error);
+        }
+      );
+    } else {
+      this.spotifyService.getCategoryTracks(this.albumId).subscribe(
+        ({ items }: any) => {
+          this.coverImage = get(items[0], 'track.album.images[0].url', null);
+          this.background.updateBackgroundUrl(items[0].track.album.images[0]);
+          const tracks = items.map(({ track }) => track);
+          this.filterTracksWithPreviewURL(tracks);
+        },
+        (error: any) => {
+          console.log(error);
+        }
+      );
+    }
+    this.audioService.getState().subscribe((newState) => {
       this.state = newState;
+      if (this.currentTrack) this.currentTrack.isPlaying = this.state.playing;
     });
     this.audioService.getAudioIDChange().subscribe((id: string) => {
       const serviceAlbumId = this.audioService.getAlbumID();
       if (this.currentTrack && this.albumId === serviceAlbumId) {
         this.currentTrack.isPlaying = false;
-        this.currentTrack = this.tracks.find(track => track.id === id);
-        if (this.currentTrack) this.currentTrack.isPlaying = true;
+        this.currentTrack = this.tracks.find((track) => track.id === id);
       }
-    })
-  }
-
-  ngOnInit() {
-    this.albumId = this.route.snapshot.paramMap.get('id');
-    this.route.queryParams.subscribe(params => {
-      this.albumName = params.name;
-      this.navigatedRoute = params.navigatedFrom;
     });
-    if (this.navigatedRoute === 'tracks') {
-      this.spotifyService.getAlbum(this.albumId)
-        .subscribe(({ tracks, images, artists, release_date }: any) => {
-          this.coverImage = images[0].url;
-          this.albumArtist = artists[0].name;
-          this.releaseDate = new Date(release_date).getFullYear();
-          const { items } = tracks;
-          this.filterTracksWithPreviewURL(items);
-        },
-          (error: any) => {
-            console.log(error)
-          }
-        );
-    } else {
-      this.spotifyService.getCategoryTracks(this.albumId)
-        .subscribe(({ items }: any) => {
-          this.coverImage = items[0].track.album.images[0].url;
-          const tracks = items.map(({ track }) => track);
-          this.filterTracksWithPreviewURL(tracks);
-        },
-          (error: any) => {
-            console.log(error)
-          }
-        );
-    }
   }
 
   filterTracksWithPreviewURL(items: ITrack[]) {
@@ -99,17 +113,12 @@ export class TrackListComponent implements OnInit {
           track.isPlaying = true;
         }
         return track;
-      })
-
-      this.isLoading = false;
+      });
+    this.loader.hide();
   }
 
   togglePlaylist() {
     this.isPlaylistClosed = !this.isPlaylistClosed;
-  }
-
-  getCoverUrl() {
-    if (this.coverImage) return 'url(' + this.coverImage + ')';
   }
 
   playStream(track: ITrack) {

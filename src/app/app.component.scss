@@ -1,0 +1,41 @@
+@import "../assets/styles/variables.scss";
+
+.main-content {
+  position: absolute;
+  overflow-y: scroll;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  right: 0;
+  .background {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    top: 0;
+    z-index: -1;
+    background-size: cover;
+    background-position: 70% 30%;
+    background-repeat: no-repeat;
+    filter: blur(10px) brightness(60%);
+  }
+  .wrapper {
+    padding-top: 100px;
+    margin: auto;
+    width: 90%;
+  }
+  &::-webkit-scrollbar-track {
+    border-radius: 7px;
+    background: rgba($color: $darkBackgroundColor, $alpha: 0);
+  }
+  &::-webkit-scrollbar {
+    width: 7px;
+    opacity: 0.6;
+    background: rgba($color: $darkBackgroundColor, $alpha: 0);
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 7px;
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    background-color: $lightFontColor;
+  }
+}

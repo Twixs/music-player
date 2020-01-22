@@ -1,11 +1,24 @@
 <div class="track">
     <button class="transparent_button" (click)="playPause(track)">
-        <i class="material-icons" id="play" *ngIf="track.isPlaying">pause_circle_outline</i>
-        <i class="material-icons" id="pause" *ngIf="!track.isPlaying">play_circle_outline</i>
+        <i class="material-icons greenThemeColor" *ngIf="track.isPlaying">pause_circle_outline</i>
+        <i class="material-icons defaultLightColor" *ngIf="!track.isPlaying">play_circle_outline</i>
     </button>
-    <h6 [style.color]="track.isPlaying ? '#00d949' : '#ffffff'">{{track.name}}</h6>
-    <p [style.color]="track.isPlaying ? '#00d949' : '#ffffff'">
-        {{displayMillisecInMinSec(track.duration_ms)}}
+    <div>
+        <div>
+            <h6 [ngClass]="{
+            'greenThemeColor': track.isPlaying,
+            'defaultLightColor': !track.isPlaying
+        }">{{track.name}}</h6>
+        </div>
+        <div *ngIf="showArtist">
+            <h6 class="defaultLightColor">by {{getArtists(track.artists)}}</h6>
+        </div>
+    </div>
+    <p [ngClass]="{
+        'greenThemeColor': track.isPlaying,
+        'defaultLightColor': !track.isPlaying
+    }">
+        {{convertMilliseconds(track.duration_ms)}}
     </p>
 </div>
 <mat-slider *ngIf="track.isPlaying" class="time-slider" min="0" [max]="state?.duration" step="1"

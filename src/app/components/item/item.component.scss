@@ -5,9 +5,17 @@
   justify-content: space-between;
   align-items: center;
   padding: 13px 0;
-  h6 {
-    margin: 0 15px;
-    text-align: center;
+  p {
+    margin: 0;
+  }
+  div {
+    display: flex;
+    justify-content: space-between;
+    width: 50%;
+    flex-grow: 2;
+    h6 {
+      margin: 0 15px;
+    }
   }
   .transparent_button {
     display: flex;
@@ -17,12 +25,6 @@
     border: none;
     border-radius: 50%;
     outline: none;
-    #play {
-      color: $greenThemeColor;
-    }
-    #pause {
-      color: $lightFontColor;
-    }
   }
 }
 .mat-slider {
@@ -30,4 +32,10 @@
 }
 .mat-divider {
   border-top-color: rgba($color: $lightFontColor, $alpha: 0.5);
+}
+.greenThemeColor {
+  color: $greenThemeColor;
+}
+.defaultLightColor {
+  color: $lightFontColor;
 }

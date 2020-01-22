@@ -1,0 +1,138 @@
+@import "../../../assets/styles/variables.scss";
+
+h5 {
+  color: $greenThemeColor;
+  margin: 0;
+  font-size: 18px;
+}
+h6,
+p {
+  color: $lightFontColor;
+  font-size: 16px;
+}
+.controls-wrapper {
+  position: fixed;
+  z-index: 4;
+  bottom: 0;
+  width: 100vw;
+  background-color: $darkBackgroundColor;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  @media screen and (max-width: 640px) {
+    flex-wrap: wrap;
+  }
+  .play-controls {
+    display: flex;
+    justify-content: space-evenly;
+  }
+  .transparent_button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: none;
+    border: none;
+    border-radius: 50%;
+    outline: none;
+    i {
+      color: $greenThemeColor;
+      margin: 0;
+      font-size: 36px;
+      cursor: pointer;
+      @media screen and (max-width: 640px) {
+        font-size: 28px;
+      }
+    }
+    i.arrow {
+      font-size: 60px;
+      @media screen and (max-width: 640px) {
+        font-size: 42px;
+      }
+    }
+  }
+  .audio-control {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    margin: 10px;
+    width: 45%;
+    min-width: 215px;
+    button {
+      padding-right: 30px;
+    }
+    .audio-details {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      .track-details {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-end;
+        padding-top: 10px;
+        position: relative;
+        bottom: -10px;
+        .name-details {
+          width: fit-content;
+        }
+      }
+      .mat-slider {
+        padding: 0;
+      }
+    }
+  }
+}
+.track-list {
+  position: fixed;
+  z-index: 4;
+  right: 0;
+  top: 0;
+  width: 100%;
+  height: calc(100% - 125px);
+  padding: 55px;
+  background-color: $darkBackgroundColor;
+  overflow-y: scroll;
+  @media screen and (max-width: 640px) {
+    padding: 20px;
+    height: calc(100% - 174px);
+  }
+  h1,
+  h4 {
+    color: $lightFontColor;
+    margin-bottom: 20px;
+  }
+  .current-track {
+    display: flex;
+    margin-bottom: 40px;
+    h5 {
+      align-self: center;
+    }
+    div {
+      display: flex;
+      align-items: center;
+      @media screen and (max-width: 640px) {
+        flex-wrap: wrap;
+        padding: 10px;
+      }
+      i {
+        color: $greenThemeColor;
+        font-size: 24px;
+        margin-right: 10px;
+      }
+    }
+  }
+  &::-webkit-scrollbar-track {
+    border-radius: 7px;
+    background: rgba($color: $darkBackgroundColor, $alpha: 0);
+  }
+  &::-webkit-scrollbar {
+    width: 7px;
+    opacity: 0.6;
+    background: rgba($color: $darkBackgroundColor, $alpha: 0);
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 7px;
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    background-color: $lightFontColor;
+  }
+}

@@ -7,24 +7,17 @@ import { SearchComponent } from './search.component';
 import { SpotifyApiService } from '../../services/spotify.service';
 import { HttpService } from '../../services/http.service';
 
-
 describe('SearchComponent', () => {
   let component: SearchComponent;
   let fixture: ComponentFixture<SearchComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ 
-        HttpClientModule
-      ],
-      declarations: [ SearchComponent ],
-      providers: [
-        SpotifyApiService,
-        HttpService
-      ],
-      schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
-    })
-    .compileComponents();
+      imports: [HttpClientModule],
+      declarations: [SearchComponent],
+      providers: [SpotifyApiService, HttpService],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

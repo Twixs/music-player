@@ -4,7 +4,7 @@ import { ITrack } from 'src/app/types/interfaces';
 @Component({
   selector: 'app-album-info',
   templateUrl: './album-info.component.html',
-  styleUrls: ['./album-info.component.scss']
+  styleUrls: ['./album-info.component.scss'],
 })
 export class AlbumInfoComponent {
   @Input() coverImage: string;
@@ -15,8 +15,7 @@ export class AlbumInfoComponent {
   @Input() tracks: ITrack[];
   @Output() isPlaylistClosedOut = new EventEmitter<boolean>();
 
-
-  constructor() { }
+  constructor() {}
 
   togglePlaylist() {
     this.isPlaylistClosedOut.emit(!this.isPlaylistClosed);

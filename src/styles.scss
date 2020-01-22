@@ -61,9 +61,8 @@ $music-player-theme: mat-light-theme($music-player-primary, $music-player-accent
 /* You can add global styles to this file, and also import other style files */
 @import "~bootstrap/scss/bootstrap.scss";
 
-$darkBackgroundColor: rgb(56, 56, 56);
+$darkBackgroundColor: rgb(24, 24, 24);
 $lightFontColor: rgb(245, 245, 245);
-$greenThemeColor: rgb(0, 217, 73);
 
 body,
 html {
@@ -74,18 +73,6 @@ html {
   @media screen and (max-width: 415px) {
     overflow-x: hidden !important;
   }
-  &::-webkit-scrollbar-track {
-    border-radius: 5px;
-    background: rgba($color: $darkBackgroundColor, $alpha: 0.1);
-  }
-  &::-webkit-scrollbar {
-    width: 7px;
-    background: rgba($color: $darkBackgroundColor, $alpha: 0.1);
-  }
-  &::-webkit-scrollbar-thumb {
-    border-radius: 5px;
-    background-color: $lightFontColor;
-  }
 }
 
 @font-face {
@@ -93,6 +80,5 @@ html {
   src: url("assets/fonts/ProximaNova-Bold.woff") format("woff");
 }
 body {
-  margin: 0;
   font-family: Proxima, "Helvetica Neue", sans-serif;
 }

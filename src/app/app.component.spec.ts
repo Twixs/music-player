@@ -6,11 +6,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {
-  MatSliderModule,
-  MatDividerModule,
-  MatButtonModule
-} from '@angular/material';
+import { MatSliderModule, MatDividerModule, MatButtonModule } from '@angular/material';
 
 // modules
 import { AppRoutingModule } from './app-routing.module';
@@ -28,6 +24,7 @@ import { SearchComponent } from './components/search/search.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { AlbumsListComponent } from './components/albums-list/albums-list.component';
 import { TrackListComponent } from './components/track-list/track-list.component';
+import { HomeComponent } from './components/home/home.component';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
@@ -41,10 +38,11 @@ describe('AppComponent', () => {
         HttpClientModule,
         MatSliderModule,
         MatDividerModule,
-        MatButtonModule
+        MatButtonModule,
       ],
       declarations: [
         AppComponent,
+        HomeComponent,
         SearchComponent,
         NavbarComponent,
         AlbumsListComponent,
@@ -55,10 +53,14 @@ describe('AppComponent', () => {
         HttpService,
         SpotifyApiService,
         AudioService,
-        { provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true },
-        { provide: APP_BASE_HREF, useValue: '/' }
+        {
+          provide: HTTP_INTERCEPTORS,
+          useClass: HttpInterceptorService,
+          multi: true,
+        },
+        { provide: APP_BASE_HREF, useValue: '/' },
       ],
-      schemas: [ NO_ERRORS_SCHEMA ]
+      schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
   }));
 
