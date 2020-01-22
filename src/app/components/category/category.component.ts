@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+
 import { SpotifyApiService } from '../../services/spotify.service';
 import { LoaderService } from '../../services/loader.service';
-import * as _ from 'lodash';
-import { BackgroundImageService } from 'src/app/services/background-image.service';
+import { BackgroundImageService } from '../../services/background-image.service';
+
+import get from 'lodash.get';
 
 @Component({
   selector: 'app-category',
@@ -26,7 +28,7 @@ export class CategoryComponent implements OnInit {
     const { id } = this.route.snapshot.params;
     this.spotifyService.getCategoryPlaylist(id).subscribe(({ playlists }: any) => {
       const { items } = playlists;
-      this.coverImage = _.get(items[0], 'images[0].url', null);
+      this.coverImage = get(items[0], 'images[0].url', null);
       this.background.updateBackgroundUrl(items[0].images[0]);
       this.categoryPlaylists = items;
       this.loader.hide();

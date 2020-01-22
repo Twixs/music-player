@@ -9,7 +9,7 @@ import { LoaderService } from '../../services/loader.service';
 import { BackgroundImageService } from '../../services/background-image.service';
 
 import { getArtists } from '../../utils/utils';
-import * as _ from 'lodash';
+import get from 'lodash.get';
 
 @Component({
   selector: 'app-track-list',
@@ -64,7 +64,7 @@ export class TrackListComponent implements OnInit {
     if (this.navigatedRoute === 'tracks') {
       this.spotifyService.getAlbum(this.albumId).subscribe(
         ({ tracks, images, artists, release_date }: any) => {
-          this.coverImage = _.get(images[0], 'url', null);
+          this.coverImage = get(images[0], 'url', null);
           this.background.updateBackgroundUrl(images[0]);
           this.albumArtist = getArtists(artists);
           this.releaseDate = new Date(release_date).getFullYear();
@@ -78,7 +78,7 @@ export class TrackListComponent implements OnInit {
     } else {
       this.spotifyService.getCategoryTracks(this.albumId).subscribe(
         ({ items }: any) => {
-          this.coverImage = _.get(items[0], 'track.album.images[0].url', null);
+          this.coverImage = get(items[0], 'track.album.images[0].url', null);
           this.background.updateBackgroundUrl(items[0].track.album.images[0]);
           const tracks = items.map(({ track }) => track);
           this.filterTracksWithPreviewURL(tracks);

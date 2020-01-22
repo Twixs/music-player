@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { SpotifyApiService } from '../../services/spotify.service';
-import * as _ from 'lodash';
+import get from 'lodash.get';
 
 @Component({
   selector: 'app-navbar',
@@ -18,7 +18,7 @@ export class NavbarComponent implements OnInit {
   ngOnInit() {
     this.spotifyService.getUser().subscribe(({ display_name, images }) => {
       this.username = display_name;
-      this.profileImage = _.get(images[0], 'url', null);
+      this.profileImage = get(images[0], 'url', null);
     });
 
     const scrollTrackerElement = document.getElementById('scroll-tracker-element');
