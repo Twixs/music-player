@@ -22,7 +22,6 @@
     padding: 0;
     background: transparent;
     color: $lightFontColor;
-    transition: 0.4s all;
     @media screen and (max-width: 890px) {
       width: 0px;
     }
@@ -38,7 +37,7 @@
   @media screen and (max-width: 585px) {
     &:hover {
       background-color: $darkBackgroundColor;
-      padding: 20px;
+      padding: 17px;
       position: fixed;
       z-index: 8;
       top: 0;

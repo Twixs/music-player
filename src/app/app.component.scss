@@ -20,9 +20,12 @@
     filter: blur(10px) brightness(60%);
   }
   .wrapper {
-    padding-top: 100px;
+    padding-top: 90px;
     margin: auto;
     width: 90%;
+    @media screen and (max-width: 420px) {
+      width: 100%;
+    }
   }
   &::-webkit-scrollbar-track {
     border-radius: 7px;
