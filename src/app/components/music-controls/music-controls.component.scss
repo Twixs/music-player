@@ -19,12 +19,30 @@ p {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  @media screen and (max-width: 640px) {
-    flex-wrap: wrap;
+  @media screen and (max-width: 420px) {
+    padding: 20px;
   }
-  .play-controls {
+  .play-controls,
+  .volume-controls {
     display: flex;
     justify-content: space-evenly;
+    @media screen and (max-width: 768px) {
+      .time-slider,
+      .time-slider-horizontal {
+        display: none;
+      }
+      div.volume:hover {
+        .time-slider-vertical {
+          display: flex;
+          position: absolute;
+          bottom: 84px;
+          background-color: $darkBackgroundColor;
+        }
+      }
+    }
+    .time-slider-vertical {
+      display: none;
+    }
   }
   .transparent_button {
     display: flex;
@@ -43,42 +61,33 @@ p {
         font-size: 28px;
       }
     }
-    i.arrow {
-      font-size: 60px;
-      @media screen and (max-width: 640px) {
-        font-size: 42px;
-      }
+    i.play {
+      font-size: 42px;
     }
   }
-  .audio-control {
+  .audio-details {
     display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    margin: 10px;
-    width: 45%;
-    min-width: 215px;
-    button {
-      padding-right: 30px;
+    flex-direction: column;
+    margin: 0 10px;
+    width: 55%;
+    @media screen and (max-width: 420px) {
+      display: none;
+      width: fit-content;
     }
-    .audio-details {
+    .track-details {
       display: flex;
-      flex-direction: column;
-      width: 100%;
-      .track-details {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: flex-end;
-        padding-top: 10px;
-        position: relative;
-        bottom: -10px;
-        .name-details {
-          width: fit-content;
-        }
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: flex-end;
+      padding-top: 10px;
+      position: relative;
+      bottom: -10px;
+      .name-details {
+        width: fit-content;
       }
-      .mat-slider {
-        padding: 0;
-      }
+    }
+    .mat-slider {
+      padding: 0;
     }
   }
 }
@@ -88,13 +97,13 @@ p {
   right: 0;
   top: 0;
   width: 100%;
-  height: calc(100% - 125px);
+  height: calc(100% - 105px);
   padding: 55px;
   background-color: $darkBackgroundColor;
   overflow-y: scroll;
-  @media screen and (max-width: 640px) {
-    padding: 20px;
-    height: calc(100% - 174px);
+  @media screen and (max-width: 420px) {
+    padding: 25px;
+    height: calc(100% - 84px);
   }
   h1,
   h4 {
@@ -110,10 +119,6 @@ p {
     div {
       display: flex;
       align-items: center;
-      @media screen and (max-width: 640px) {
-        flex-wrap: wrap;
-        padding: 10px;
-      }
       i {
         color: $greenThemeColor;
         font-size: 24px;

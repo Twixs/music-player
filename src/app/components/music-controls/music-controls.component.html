@@ -15,40 +15,41 @@
 <div class="controls-wrapper">
     <div class="play-controls">
         <button class="transparent_button" (click)="playPreviousTrack()">
-            <i class="material-icons arrow">arrow_left</i>
+            <i class="material-icons arrow">skip_previous</i>
+        </button>
+        <button class="transparent_button" (click)="playPause()">
+            <i class="material-icons play">{{state?.playing ? 'pause_circle_outline' : 'play_circle_outline'}}</i>
         </button>
         <button class="transparent_button" (click)="playNextTrack()" [disabled]="isTracksListEnd">
-            <i class="material-icons arrow" [style.opacity]="isTracksListEnd ? '0.6' : '1'">arrow_right</i>
+            <i class="material-icons arrow" [style.opacity]="isTracksListEnd ? '0.6' : '1'">skip_next</i>
         </button>
     </div>
-    <button class="transparent_button" (click)="autorenew()">
+    <div class="audio-details">
+        <div class="track-details">
+            <div class="name-details">
+                <h5>{{currentTrack?.name}}</h5>
+                <h6>{{getArtists(currentTrack?.artists)}}</h6>
+            </div>
+            <p>{{state?.readableCurrentTime}}</p>
+        </div>
+        <mat-slider class="time-slider" min="0" [max]="state?.duration" step="1" [value]="state?.currentTime"
+            (input)="rewindTo($event)">
+        </mat-slider>
+    </div>
+    <button class="transparent_button autorenew" (click)="autorenew()">
         <i class="material-icons" [style.opacity]="isAutorenewed ? '1' : '0.6'">autorenew</i>
     </button>
-    <div class="audio-control">
-        <button class="transparent_button" (click)="playPause()">
-            <i class="material-icons">{{state?.playing ? 'pause_circle_outline' : 'play_circle_outline'}}</i>
-        </button>
-        <div class="audio-details">
-            <div class="track-details">
-                <div class="name-details">
-                    <h5>{{currentTrack?.name}}</h5>
-                    <h6>{{getArtists(currentTrack?.artists)}}</h6>
-                </div>
-                <p>{{state?.readableCurrentTime}}</p>
-            </div>
-            <mat-slider class="time-slider" min="0" [max]="state?.duration" step="1" [value]="state?.currentTime"
-                (input)="rewindTo($event)">
-            </mat-slider>
-        </div>
-    </div>
-    <button class="transparent_button" (click)="shuffle()">
+    <button class="transparent_button shuffle" (click)="shuffle()">
         <i class="material-icons" [style.opacity]="isShuffled ? '1' : '0.6'">shuffle</i>
     </button>
-    <div class="play-controls">
-        <div class="transparent_button">
+    <div class="volume-controls">
+        <div class="transparent_button volume">
             <i class="material-icons">{{isVolumeOff ? 'volume_off' : 'volume_up'}}</i>
+            <mat-slider class="time-slider-vertical" vertical min="0" [max]="1" step="0.1" [value]="state?.volume"
+                (input)="setVolume($event)">
+            </mat-slider>
         </div>
-        <mat-slider class="time-slider" min="0" [max]="1" step="0.1" [value]="state?.volume"
+        <mat-slider class="time-slider-horizontal" min="0" [max]="1" step="0.1" [value]="state?.volume"
             (input)="setVolume($event)">
         </mat-slider>
     </div>
