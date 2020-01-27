@@ -42,7 +42,7 @@ export class TrackListComponent implements OnInit {
   public albumArtist: string;
   public releaseDate: number;
   public albumId: string;
-  public navigatedRoute: string;
+  public routeType: string;
   public coverImage: string;
   public isPlaylistClosed = true;
 
@@ -59,9 +59,9 @@ export class TrackListComponent implements OnInit {
     this.albumId = this.route.snapshot.paramMap.get('id');
     this.route.queryParams.subscribe((params) => {
       this.albumName = params.name;
-      this.navigatedRoute = params.navigatedFrom;
+      this.routeType = params.type;
     });
-    if (this.navigatedRoute === 'tracks') {
+    if (this.routeType === 'album') {
       this.spotifyService.getAlbum(this.albumId).subscribe(
         ({ tracks, images, artists, release_date }: any) => {
           this.coverImage = get(images[0], 'url', null);
@@ -75,7 +75,7 @@ export class TrackListComponent implements OnInit {
           console.log(error);
         }
       );
-    } else {
+    } else if (this.routeType === 'playlist') {
       this.spotifyService.getCategoryTracks(this.albumId).subscribe(
         ({ items }: any) => {
           this.coverImage = get(items[0], 'track.album.images[0].url', null);
@@ -87,6 +87,13 @@ export class TrackListComponent implements OnInit {
           console.log(error);
         }
       );
+    } else {
+      this.spotifyService.getArtistTopTracks(this.albumId).subscribe(({ tracks }: any) => {
+        this.coverImage = get(tracks[0], 'album.images[0].url', null);
+        this.background.updateBackgroundUrl(tracks[0].album.images[0]);
+        this.albumArtist = getArtists(tracks[0].artists);
+        this.filterTracksWithPreviewURL(tracks);
+      });
     }
     this.audioService.getState().subscribe((newState) => {
       this.state = newState;

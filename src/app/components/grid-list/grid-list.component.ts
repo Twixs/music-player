@@ -25,15 +25,25 @@ export class GridListComponent {
     const navigationExtras: NavigationExtras = {
       queryParams: {
         name: item.name,
-        navigatedFrom: this.route,
+        type: this.route,
       },
     };
 
-    if (this.route === 'categoryPlaylists') {
-      return this.router.navigate([`/tracks`, item.id], navigationExtras);
+    switch (item.type) {
+      case 'album':
+        navigationExtras.queryParams.type = 'album';
+        break;
+      case 'artist':
+        navigationExtras.queryParams.type = 'artist';
+        break;
+      case 'playlist':
+        navigationExtras.queryParams.type = 'playlist';
+        break;
     }
 
-    this.router.navigate([`/${this.route}`, item.id], navigationExtras);
+    if (this.route === 'category') return this.router.navigate([`/${this.route}`, item.id], navigationExtras);
+
+    return this.router.navigate([`/tracks`, item.id], navigationExtras);
   }
 
   cutHeading(heading: string) {

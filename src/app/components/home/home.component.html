@@ -1,2 +1,5 @@
-<app-albums-list></app-albums-list>
+<app-albums-list *ngIf="albums.items" [items]="albums.items" [info]="albums" name="Albums"></app-albums-list>
+<app-albums-list *ngIf="artists.items" [items]="artists.items" [info]="artists" name="Artists"></app-albums-list>
+<app-albums-list *ngIf="playlists.items" [items]="playlists.items" [info]="playlists" name="Playlists"></app-albums-list>
+<app-albums-list [items]="releases"></app-albums-list>
 <app-categories></app-categories>
