@@ -59,4 +59,8 @@ export class ItemComponent implements OnInit {
   getArtists(artists: any[]) {
     return getArtists(artists);
   }
+
+  isActive() {
+    return this.track.isPlaying || this.track.id === this.audioService.getAudioID();
+  }
 }

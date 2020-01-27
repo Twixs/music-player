@@ -13,7 +13,5 @@
     <div *ngIf="!tracks.length" class="no-tracks">
         <p>No tracks available</p>
     </div>
-    <div *ngFor="let track of tracks">
-        <app-item [track]="track" (newCurrentTrack)="playStream($event)"></app-item>
-    </div>
+    <app-item *ngFor="let track of tracks" [track]="track" (newCurrentTrack)="playStream($event)"></app-item>
 </div>
