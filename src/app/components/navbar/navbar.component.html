@@ -1,12 +1,12 @@
 <div id="scroll-tracker-element"></div>
 <nav class="navbar navbar-light justify-content-between" #navElement>
   <a class="navbar-brand navbar-link" routerLink="">
-    <img src="assets/musify_logo.png" width="50" height="50" alt="Musify logo">
+    <img src="assets/musify_logo.png" alt="Musify logo">
     <h1>Musify</h1>
   </a>
   <app-search></app-search>
-  <div>
-    <img *ngIf="profileImage" [src]="profileImage" width="50" height="50" alt="User photo" class="profile-image">
-    <h6>{{username}}</h6>
+  <div class="profile">
+    <img *ngIf="profileImage" class="profile-image" [src]="profileImage" [alt]="username">
+    <h6 class="username">{{username}}</h6>
   </div>
 </nav>

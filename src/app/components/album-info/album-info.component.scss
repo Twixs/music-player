@@ -9,6 +9,7 @@ h5 {
   }
   @media screen and (max-width: 415px) {
     font-size: 16px;
+    text-align: center;
   }
 }
 .info {
@@ -20,8 +21,12 @@ h5 {
   z-index: 1;
   top: 0;
   @media screen and (max-width: 580px) {
+    width: 75%;
     flex-direction: column;
     justify-content: center;
+  }
+  @media screen and (max-width: 420px) {
+    width: 90%;
   }
   .album-image {
     margin-left: 35px;
