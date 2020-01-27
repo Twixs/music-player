@@ -1,8 +1,8 @@
 <div class="track">
     <button class="transparent_button" (click)="playPause(track)">
-        <i class="material-icons greenThemeColor" *ngIf="track.isPlaying">pause_circle_outline</i>
-        <i class="material-icons" *ngIf="!track.isPlaying"
-            [ngClass]="{'greenThemeColor': isActive(), 'defaultLightColor': !isActive()}">play_circle_outline</i>
+        <i class="material-icons" [ngClass]="{'greenThemeColor': isActive(), 'defaultLightColor': !isActive()}">
+            {{track.isPlaying ? 'pause_circle_outline' : 'play_circle_outline'}}
+        </i>
     </button>
     <div>
         <div>
