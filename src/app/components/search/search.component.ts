@@ -23,7 +23,7 @@ export class SearchComponent implements OnInit {
     this.searchString$.pipe(debounceTime(250), distinctUntilChanged()).subscribe((searchStr: string) => {
       if (searchStr) this.loader.show();
       if (window.location.href !== environment.REDIRECT_URI) this.route.navigate(['/']);
-      return searchStr ? this.spotifyService.searchMusic(searchStr) : null;
+      return this.spotifyService.searchMusic(searchStr);
     });
 
     this.route.events.subscribe((event) => {

@@ -41,7 +41,12 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   updateList() {
-    this.subscription$ = this.spotifyService.dataList$.subscribe(({ albums, artists, playlists }: any) => {
+    this.subscription$ = this.spotifyService.dataList$.subscribe((data: any) => {
+      if (!data) {
+        this.loader.hide();
+        return (this.albums = this.artists = this.playlists = []);
+      }
+      const { albums, artists, playlists } = data;
       if (albums && albums.items) this.albums = albums;
       if (artists && artists.items) this.artists = artists;
       if (playlists && playlists.items) this.playlists = playlists;

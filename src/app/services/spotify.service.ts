@@ -33,6 +33,7 @@ export class SpotifyApiService {
   }
 
   searchMusic(q: string, offset: string = '0', type: string = 'album,artist,playlist') {
+    if (!q) return this.dataList$.next();
     const params = {
       endpoint: 'search',
       queryParams: {

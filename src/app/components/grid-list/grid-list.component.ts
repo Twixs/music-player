@@ -13,7 +13,7 @@ export class GridListComponent {
   @Input() items: any = [];
   @Input() route: string;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router) {}
 
   getCoverImage(item: any) {
     return item.images
