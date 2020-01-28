@@ -13,7 +13,7 @@ export class GridListComponent {
   @Input() items: any = [];
   @Input() route: string;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) { }
 
   getCoverImage(item: any) {
     return item.images
@@ -25,25 +25,13 @@ export class GridListComponent {
     const navigationExtras: NavigationExtras = {
       queryParams: {
         name: item.name,
-        type: this.route,
+        type: item.type,
       },
     };
 
-    switch (item.type) {
-      case 'album':
-        navigationExtras.queryParams.type = 'album';
-        break;
-      case 'artist':
-        navigationExtras.queryParams.type = 'artist';
-        break;
-      case 'playlist':
-        navigationExtras.queryParams.type = 'playlist';
-        break;
-    }
-
-    if (this.route === 'category') return this.router.navigate([`/${this.route}`, item.id], navigationExtras);
-
-    return this.router.navigate([`/tracks`, item.id], navigationExtras);
+    return this.route === 'category'
+      ? this.router.navigate([`/${this.route}`, item.id], navigationExtras)
+      : this.router.navigate([`/tracks`, item.id], navigationExtras);
   }
 
   cutHeading(heading: string) {
