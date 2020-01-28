@@ -3,11 +3,11 @@ import { SpotifyApiService } from '../../services/spotify.service';
 import { LoaderService } from '../../services/loader.service';
 
 @Component({
-  selector: 'app-albums-list',
-  templateUrl: './albums-list.component.html',
-  styleUrls: ['./albums-list.component.scss'],
+  selector: 'app-section-list',
+  templateUrl: './section-list.component.html',
+  styleUrls: ['./section-list.component.scss'],
 })
-export class AlbumsListComponent implements OnChanges {
+export class SectionListComponent implements OnChanges {
   @Input() items: any[] = [];
   @Input() info: any;
   @Input() name: string;
@@ -24,7 +24,7 @@ export class AlbumsListComponent implements OnChanges {
     }
   }
 
-  goToAlbums(nextPage: string) {
+  goToPage(nextPage: string) {
     this.loader.show();
     this.spotifyService.getNextAlbums(nextPage, this.name.slice(0, length - 1).toLowerCase());
   }

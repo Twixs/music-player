@@ -1,7 +1,7 @@
 <div class="search-container">
   <input #search class="form-control mr-sm-2 shadow-none" type="search" placeholder="Search music..." aria-label="Search"
     (keyup)="searchString$.next($event.target.value)" />
-  <button class="transparent_button">
+  <div class="transparent_button">
     <i class="material-icons">search</i>
-  </button>
+  </div>
 </div>
