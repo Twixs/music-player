@@ -56,7 +56,7 @@ export class ItemComponent implements OnInit {
     return displayMillisecInMinSec(ms);
   }
 
-  getArtists(artists: any[]) {
+  getArtists(artists: any) {
     return getArtists(artists);
   }
 

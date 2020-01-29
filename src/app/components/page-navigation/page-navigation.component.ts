@@ -8,11 +8,11 @@ import { Component, Input, EventEmitter, Output, OnChanges } from '@angular/core
 export class PageNavigationComponent implements OnChanges {
   @Input() pageInfo: any;
   @Output() goToPage = new EventEmitter<string>();
-  private albumsTotal: number;
-  private nextPage: string;
-  private prevPage: string;
-  private page = 1;
-  private pageCount: string;
+  public albumsTotal: number;
+  public nextPage: string;
+  public prevPage: string;
+  public page = 1;
+  public pageCount: string;
 
   constructor() {}
 

@@ -34,6 +34,6 @@ export const searchParamsAsObj = (str: string) => {
   }, {});
 };
 
-export const getArtists = (artists: any[]) => {
+export const getArtists = (artists: any) => {
   return artists.map((artist) => artist.name).join(', ');
 };

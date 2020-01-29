@@ -131,7 +131,7 @@ export class MusicControlsComponent implements OnInit {
     this.audioService.playStream(track);
   }
 
-  getArtists(artists: any[]) {
+  getArtists(artists: any) {
     return getArtists(artists);
   }
 }

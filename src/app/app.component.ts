@@ -14,9 +14,9 @@ import { BackgroundImageService } from './services/background-image.service';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  private isMusicPlaying: boolean;
-  private backgroundUrl: string;
-  private isLoading: Observable<boolean> = this.loader.isDataLoading.pipe(delay(0));
+  public isMusicPlaying: boolean;
+  public backgroundUrl: string;
+  public isLoading: Observable<boolean> = this.loader.isDataLoading.pipe(delay(0));
 
   constructor(
     private auth: AuthService,
