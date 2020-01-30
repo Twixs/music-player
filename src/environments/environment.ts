@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  CLIENT_ID: '7419229e221547db8d7d795ff0988bf7', // here should be your client id from registered application
+  CLIENT_ID: '', // here should be your client id from registered application
   REDIRECT_URI: 'http://localhost:4200/',
   BASE_URL: 'https://api.spotify.com/v1',
   STORAGE_KEY: 'auth_token',
