@@ -14,8 +14,6 @@ export class AudioService {
   private albumId: string;
   private trackList: ITrack[] = [];
   public shuffledTrackList = [];
-  private isAutorenewed = false;
-  private isShuffled = false;
   audioEvents = ['ended', 'error', 'play', 'playing', 'pause', 'timeupdate', 'canplay', 'volumechange'];
 
   private state: StreamState = {
@@ -28,6 +26,8 @@ export class AudioService {
     canplay: false,
     error: false,
     volume: 0.8,
+    autorenew: false,
+    shuffle: false,
   };
 
   private stateChange: BehaviorSubject<StreamState> = new BehaviorSubject(this.state);
@@ -75,6 +75,8 @@ export class AudioService {
       canplay: false,
       error: false,
       volume: 0.8,
+      autorenew: false,
+      shuffle: false,
     };
   }
 
@@ -106,7 +108,7 @@ export class AudioService {
     this.audioIDChange.next(id);
     if (trackList && this.albumId !== albumId) {
       if (albumId) this.albumId = albumId;
-      this.isShuffled = false;
+      if (this.state.shuffle) this.shuffledTrackList = this.shuffleTrackList(trackList.slice());
       this.trackList = trackList;
       this.trackListChange.next(trackList);
     }
@@ -114,7 +116,7 @@ export class AudioService {
       .pipe(takeUntil(this.stop$))
       .subscribe((event: Event) => {
         if (event.type === 'ended') {
-          if (this.isAutorenewed) {
+          if (this.state.autorenew) {
             this.audioObj.currentTime = 0;
             return this.play();
           }
@@ -159,7 +161,7 @@ export class AudioService {
     const currentTrack = this.trackList.find((track) => track.id === this.audioID);
     let nextTrack: ITrack;
     let isTrackListEnd: boolean;
-    if (this.isShuffled) {
+    if (this.state.shuffle) {
       const currentTrackIndex = this.shuffledTrackList.map((track) => track.id).indexOf(currentTrack.id);
       nextTrack = this.shuffledTrackList[currentTrackIndex + 1];
       isTrackListEnd = this.shuffledTrackList.length === currentTrackIndex + 1;
@@ -179,7 +181,7 @@ export class AudioService {
     const currentTrack = this.trackList.find((track) => track.id === this.audioID);
     let prevTrack: ITrack;
     let isTrackListStart: boolean;
-    if (this.isShuffled) {
+    if (this.state.shuffle) {
       const currentTrackIndex = this.shuffledTrackList.map((track) => track.id).indexOf(currentTrack.id);
       prevTrack = this.shuffledTrackList[currentTrackIndex - 1];
       isTrackListStart = currentTrackIndex - 1 < 0;
@@ -222,19 +224,13 @@ export class AudioService {
   }
 
   setAutorenew(newValue) {
-    this.isAutorenewed = newValue;
+    this.state.autorenew = newValue;
+    this.stateChange.next(this.state);
   }
 
   setShuffle(newValue) {
-    this.isShuffled = newValue;
-  }
-
-  getAutorenew() {
-    return this.isAutorenewed;
-  }
-
-  getShuffle() {
-    return this.isShuffled;
+    this.state.shuffle = newValue;
+    this.stateChange.next(this.state);
   }
 
   shuffleTrackList(array: ITrack[]) {

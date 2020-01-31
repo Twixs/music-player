@@ -33,4 +33,6 @@ export interface StreamState {
   canplay: boolean;
   error: boolean;
   volume: number;
+  autorenew: boolean;
+  shuffle: boolean;
 }
