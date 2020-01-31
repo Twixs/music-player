@@ -44,14 +44,14 @@ export class MusicControlsComponent implements OnInit {
     this.listenAudioService();
     this.listenAudioChanges();
     this.listenTrackListChanges();
-    this.isAutorenewed = this.audioService.getAutorenew();
-    this.isShuffled = this.audioService.getShuffle();
   }
 
   listenAudioService() {
     this.audioService.getState().subscribe((newState) => {
       this.state = newState;
       this.isVolumeOff = newState.volume <= 0;
+      this.isAutorenewed = newState.autorenew;
+      this.isShuffled = newState.shuffle;
     });
   }
 
@@ -65,8 +65,7 @@ export class MusicControlsComponent implements OnInit {
 
   listenTrackListChanges() {
     this.audioService.getTrackListChange().subscribe((newTrackList: ITrack[]) => {
-      this.currentTrackList = newTrackList;
-      this.isShuffled = this.audioService.getShuffle();
+      this.currentTrackList = this.isShuffled ? this.audioService.shuffledTrackList : newTrackList;
       this.getAudioDetails();
     });
   }

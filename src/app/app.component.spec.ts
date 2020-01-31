@@ -22,7 +22,7 @@ import { AudioService } from './services/audio.service';
 import { AppComponent } from './app.component';
 import { SearchComponent } from './components/search/search.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
-import { AlbumsListComponent } from './components/albums-list/albums-list.component';
+import { SectionListComponent } from './components/section-list/section-list.component';
 import { TrackListComponent } from './components/track-list/track-list.component';
 import { HomeComponent } from './components/home/home.component';
 
@@ -45,7 +45,7 @@ describe('AppComponent', () => {
         HomeComponent,
         SearchComponent,
         NavbarComponent,
-        AlbumsListComponent,
+        SectionListComponent,
         TrackListComponent,
       ],
       providers: [

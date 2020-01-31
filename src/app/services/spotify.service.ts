@@ -10,7 +10,7 @@ export class SpotifyApiService {
 
   constructor(private $http: HttpService) {}
 
-  getAlbums() {
+  getNewReleases() {
     const params = {
       endpoint: 'browse/new-releases',
       queryParams: {
@@ -32,24 +32,25 @@ export class SpotifyApiService {
     return this.$http.request(params);
   }
 
-  searchMusic(q: string, offset: string = '0') {
+  searchMusic(q: string, offset: string = '0', type: string = 'album,artist,playlist') {
+    if (!q) return this.dataList$.next();
     const params = {
       endpoint: 'search',
       queryParams: {
         q,
-        type: 'album',
+        type,
         limit: 24,
         offset,
       },
     };
-    this.$http.request(params).subscribe(({ albums }: any) => {
-      this.dataList$.next(albums);
+    this.$http.request(params).subscribe((data: any) => {
+      this.dataList$.next(data);
     });
   }
 
-  getNextAlbums(next: string) {
+  getNextAlbums(next: string, type: string) {
     const { query, offset } = searchParamsAsObj(next);
-    this.searchMusic(query, offset);
+    this.searchMusic(query, offset, type);
   }
 
   getCategories() {
@@ -77,6 +78,17 @@ export class SpotifyApiService {
   getCategoryTracks(playlistID: string) {
     const params = {
       endpoint: `playlists/${playlistID}/tracks`,
+      queryParams: {
+        limit: 25,
+        country: 'US',
+      },
+    };
+    return this.$http.request(params);
+  }
+
+  getArtistTopTracks(id: string) {
+    const params = {
+      endpoint: `artists/${id}/top-tracks`,
       queryParams: {
         limit: 25,
         country: 'US',

@@ -7,7 +7,7 @@ import { GridListComponent } from './grid-list.component';
 import { HomeComponent } from '../home/home.component';
 import { CategoryComponent } from '../category/category.component';
 import { TrackListComponent } from '../track-list/track-list.component';
-import { AlbumsListComponent } from '../albums-list/albums-list.component';
+import { SectionListComponent } from '../section-list/section-list.component';
 
 describe('GridListComponent', () => {
   let component: GridListComponent;
@@ -16,7 +16,7 @@ describe('GridListComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [AppRoutingModule],
-      declarations: [GridListComponent, HomeComponent, CategoryComponent, TrackListComponent, AlbumsListComponent],
+      declarations: [GridListComponent, HomeComponent, CategoryComponent, TrackListComponent, SectionListComponent],
       providers: [{ provide: APP_BASE_HREF, useValue: '/' }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
     }).compileComponents();

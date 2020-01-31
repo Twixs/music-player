@@ -25,15 +25,13 @@ export class GridListComponent {
     const navigationExtras: NavigationExtras = {
       queryParams: {
         name: item.name,
-        navigatedFrom: this.route,
+        type: item.type,
       },
     };
 
-    if (this.route === 'categoryPlaylists') {
-      return this.router.navigate([`/tracks`, item.id], navigationExtras);
-    }
-
-    this.router.navigate([`/${this.route}`, item.id], navigationExtras);
+    return this.route === 'category'
+      ? this.router.navigate([`/${this.route}`, item.id], navigationExtras)
+      : this.router.navigate([`/tracks`, item.id], navigationExtras);
   }
 
   cutHeading(heading: string) {
