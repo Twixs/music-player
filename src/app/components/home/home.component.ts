@@ -10,10 +10,10 @@ import { BackgroundImageService } from '../../services/background-image.service'
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit, OnDestroy {
-  public releases: any[] = [];
-  public albums: any[] = [];
-  public artists: any[] = [];
-  public playlists: any[] = [];
+  public releases: any = [];
+  public albums: any = [];
+  public artists: any = [];
+  public playlists: any = [];
   public subscription$: Subscription;
 
   constructor(

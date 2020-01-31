@@ -11,8 +11,8 @@ export class SectionListComponent implements OnChanges {
   @Input() items: any[] = [];
   @Input() info: any;
   @Input() name: string;
-  private pageInfo: any;
-  private itemsTotal: number;
+  public pageInfo: any;
+  public itemsTotal: number;
 
   constructor(private spotifyService: SpotifyApiService, private loader: LoaderService) {}
 
