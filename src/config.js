@@ -1,8 +1,8 @@
 const writeFile = require('file-system').writeFile;
 require('dotenv').config();
 
-const CLIENT_ID = process.env.CLIENT_ID || '7419229e221547db8d7d795ff0988bf7';
-const REDIRECT_URI = process.env.REDIRECT_URI || 'https://musify-player.herokuapp.com/';
+const CLIENT_ID = process.env.CLIENT_ID;
+const REDIRECT_URI = process.env.REDIRECT_URI;
 
 const targetPath = `./src/environments/environment.prod.ts`;
 const envConfigFile = `
